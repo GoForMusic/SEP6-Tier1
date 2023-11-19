@@ -4,10 +4,10 @@ FROM node:16-alpine AS development
 ENV NODE_ENV development
 
 # Setting up the work directory
-WORKDIR /react-app
+WORKDIR /app
 
 # Installing dependencies
-COPY ./package.json /react-app
+COPY ../package.json /app
 RUN npm install
 
 # Copying all the files in our project
