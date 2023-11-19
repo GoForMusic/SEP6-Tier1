@@ -1,13 +1,11 @@
-
-version: '3'
+version: "3"
 
 services:
-  web:
-    image: tier1
+  tier1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tier1
+    working_dir: /react-app
     ports:
-      - "3000:3000"
-    volumes:
-      - ./src:/app/src
-      - ./public:/app/public
-    environment:
-      - NODE_ENV=development
+      - 3000:3000
