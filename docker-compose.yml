@@ -6,6 +6,6 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: tier1
-    working_dir: /react-app
+    working_dir: /app
     ports:
       - 3000:3000
