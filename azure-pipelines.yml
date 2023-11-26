@@ -10,10 +10,20 @@ pool:
   vmImage: windows-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+     npm install 
+     npm run build
+  displayName: 'Run Tier1'
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'your-azure-subscription'
+    appName: 'your-app-service-name'
+    package: $(Pipeline.Workspace)/drop/*.zip
+    startUpCommand: 'npm run start'
+
