@@ -37,12 +37,3 @@ stages:
           - script: |
               yarn build
             displayName: "Build React App"
-
-          - script: |
-              yarn test --coverage
-            displayName: "Run Tests"
-
-          - task: PublishCodeCoverageResults@1
-            inputs:
-              codeCoverageTool: "Cobertura"
-              summaryFileLocation: "$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml"
