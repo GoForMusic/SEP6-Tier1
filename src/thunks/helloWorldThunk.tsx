@@ -9,13 +9,17 @@ export const helloWorld = () =>
   async (dispatch : Dispatch) => {
 
     try {
-      const response = await fetch("http://", { // server address + port and route
-        method: "POST",
+      const response = await fetch("https://tier2.azurewebsites.net/HelloWorld", {
+        mode: 'cors', // server address + port and route
+        method: "GET",
         headers: { "Content-Type": "application/json" }
       });
 
       const data = await response.json();
-      const message = { message: data };
+      const message = data.message ;
+
+      console.log(data);
+      
 
       dispatch({
         type: HTTP_REQ_SUCCESS,
