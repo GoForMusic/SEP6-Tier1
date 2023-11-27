@@ -16,7 +16,7 @@ pool:
 
 variables:
   buildConfiguration: "Release"
-  nodeVersion: "16.x" # Choose a Node.js version compatible with your project
+  nodeVersion: "18.x" # Choose a Node.js version compatible with your project
 
 stages:
   - stage: BuildTestAndCoverage
