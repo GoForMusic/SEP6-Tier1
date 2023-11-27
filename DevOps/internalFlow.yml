@@ -1,0 +1,48 @@
+trigger:
+  branches:
+    exclude:
+      - "*"
+  paths:
+    exclude:
+      - "*"
+
+pr:
+  branches:
+    include:
+      - "*"
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  buildConfiguration: "Release"
+  nodeVersion: "16.x" # Choose a Node.js version compatible with your project
+
+stages:
+  - stage: BuildTestAndCoverage
+    jobs:
+      - job: BuildTestAndCoverageJob
+        displayName: "Build, Test, and Coverage"
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "$(nodeVersion)"
+              checkLatest: true
+
+          - script: |
+              npm install -g yarn
+              yarn install
+            displayName: "Install Dependencies"
+
+          - script: |
+              yarn build
+            displayName: "Build React App"
+
+          - script: |
+              yarn test --coverage
+            displayName: "Run Tests"
+
+          - task: PublishCodeCoverageResults@1
+            inputs:
+              codeCoverageTool: "Cobertura"
+              summaryFileLocation: "$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml"
