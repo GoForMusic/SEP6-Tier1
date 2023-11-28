@@ -6,8 +6,7 @@ import { registerAccount } from '../thunks/registerAccountThunk'; // Adjust the 
 
 const RegistrationForm = () => {
   const dispatch: AppDispatch = useDispatch();
-  const state = useSelector((state: any) => state.registerAccount);
-  const message = state?.message || ''; // Add a null check here
+ 
 
   const [formData, setFormData] = useState({
     username: '',
@@ -69,8 +68,7 @@ const RegistrationForm = () => {
 
       <button type="submit">Register</button>
 
-      {/* Display the registration message or other UI based on the state */}
-      {message && <p>{message}</p>}
+    
     </form>
   );
 };
