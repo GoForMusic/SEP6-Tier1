@@ -1,19 +1,19 @@
 import { HTTP_REQ_SUCCESS, HTTP_REQ_FAILED } from "../constants/helloWorld";
 
 const initialState = {
-  message: null,
+  user: null,
   error: null,
 };
 
-const helloWorldReducer = (state = initialState, action: any) => {
+const registerUserReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case HTTP_REQ_SUCCESS:
-      return { ...state, message: action.payload };
+      return { ...state, user: action.payload };
     case HTTP_REQ_FAILED:
-      return { ...state, error: action.payload };
+      return { ...state, user: action.payload };
     default:
       return state;
   }
 };
 
-export default helloWorldReducer;
+export default registerUserReducer;
