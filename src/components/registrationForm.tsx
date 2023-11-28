@@ -1,8 +1,8 @@
-// RegistrationForm.tsx
+
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../store'; // Adjust the path as needed
-import { registerAccount } from '../thunks/registerAccountThunk'; // Adjust the path as needed
+import { AppDispatch } from '../store';
+import { registerAccount } from '../thunks/registerAccountThunk'; 
 
 const RegistrationForm = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -22,10 +22,18 @@ const RegistrationForm = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Dispatch the registration thunk with form data
-    dispatch(registerAccount());
+    
+    try {
+
+      await dispatch(registerAccount());
+    } catch (error) {
+      console.error('Registration error:', error);
+     
+    }
+
+    
   };
 
   return (
