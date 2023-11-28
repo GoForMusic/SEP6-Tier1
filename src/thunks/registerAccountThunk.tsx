@@ -1,32 +1,36 @@
-import { response } from 'express';
-import {
-    HTTP_REQ_SUCCESS,
-    HTTP_REQ_FAILED
-} from '../constants/helloWorld'
+
+import { USER_REGISTER_REQ, USER_REGISTER_FAIL, USER_REGISTER_SUCCESS } from '../constants/userRegister'
 import { Dispatch } from "redux";
 
-export const registerAccount = () => 
+export const registerAccount = (username: String, password: string) => 
     async (dispatch : Dispatch) => {
 
         try {
+
+          dispatch({
+            type: USER_REGISTER_REQ
+          });
+
             const response = await fetch("https://tier2.azurewebsites.net/account", {
                 mode: 'cors',
                 method: 'POST',
-                headers: { "Content-Type": "application/json" }
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({username, password})
+              
             });
 
             const data = await response.json();
-            const message = data.message;
 
-    
             dispatch({
-                type: HTTP_REQ_SUCCESS,
-                payload: message,
-              });
-        
+              type: USER_REGISTER_SUCCESS,
+              payload: data
+            })
+           // const message = data.message;
+
             } catch (error: any) {
+
               dispatch({
-                type: HTTP_REQ_FAILED,
+                type: USER_REGISTER_FAIL,
                 payload:
                   error.response && error.response.data.message
                     ? error.response.data.message
@@ -35,5 +39,13 @@ export const registerAccount = () =>
 
         }
 
-
 };
+
+export const setError = (error : String) => 
+async (dispatch : Dispatch) => {
+  dispatch({
+    type: USER_REGISTER_FAIL,
+    payload: error
+  });
+};
+

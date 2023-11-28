@@ -1,19 +1,31 @@
-import { HTTP_REQ_SUCCESS, HTTP_REQ_FAILED } from "../constants/helloWorld";
+import {
+  USER_REGISTER_REQ,
+  USER_REGISTER_SUCCESS,
+  USER_REGISTER_FAIL,
+} from "../constants/userRegister";
 
 const initialState = {
-  user: null,
+  isRegistered: false,
+  userData: null,
   error: null,
 };
 
-const registerUserReducer = (state = initialState, action: any) => {
+const registerUserRecuder = (state = initialState, action: any) => {
   switch (action.type) {
-    case HTTP_REQ_SUCCESS:
-      return { ...state, user: action.payload };
-    case HTTP_REQ_FAILED:
-      return { ...state, user: action.payload };
+    case USER_REGISTER_REQ:
+      return { ...state, isRegistered: false, error: action.payload };
+    case USER_REGISTER_SUCCESS:
+      return {
+        ...state,
+        isRegistered: true,
+        userData: action.payload,
+        error: null,
+      };
+    case USER_REGISTER_FAIL:
+      return { ...state, isRegistered: false, error: action.payload };
     default:
       return state;
   }
 };
 
-export default registerUserReducer;
+export default registerUserRecuder;
