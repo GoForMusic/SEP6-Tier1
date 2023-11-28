@@ -3,6 +3,7 @@ import { Container } from "react-bootstrap";
 import "./App.css";
 import HelloWorldScreen from "./screens/HelloWorldScreen";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import RegisterUserScreen from "./screens/registerUserScreen";
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
         <Container>
           <Routes>
             <Route path="/helloworld" element={<HelloWorldScreen />} />
+            <Route path="/account" element={<RegisterUserScreen />} />
           </Routes>
         </Container>
       </main>
