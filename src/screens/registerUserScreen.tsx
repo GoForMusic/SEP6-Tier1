@@ -1,7 +1,7 @@
 // RegisterUserScreen.tsx
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../store'; 
+import { AppDispatch } from '../store'; // Adjust the path as needed
 import { registerAccount } from '../thunks/registerAccountThunk'; 
 import RegistrationForm from '../components/registrationForm'; 
 const RegisterUserScreen = () => {
