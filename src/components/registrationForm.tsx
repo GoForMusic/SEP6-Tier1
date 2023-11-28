@@ -1,13 +1,13 @@
 // RegistrationForm.tsx
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../store'; 
-import { registerAccount } from '../thunks/registerAccountThunk'; 
+import { AppDispatch } from '../store'; // Adjust the path as needed
+import { registerAccount } from '../thunks/registerAccountThunk'; // Adjust the path as needed
 
 const RegistrationForm = () => {
   const dispatch: AppDispatch = useDispatch();
   const state = useSelector((state: any) => state.registerAccount);
-  const message = state?.message || ''; 
+  const message = state?.message || ''; // Add a null check here
 
   const [formData, setFormData] = useState({
     username: '',
