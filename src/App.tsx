@@ -5,6 +5,7 @@ import HelloWorldScreen from "./screens/HelloWorldScreen";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import RegisterUserScreen from "./screens/registerUserScreen";
 import FilterComponent from "./components/filterComponent";
+import LoginScreen from "./screens/loginUserScreen";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
             <Route path="/helloworld" element={<HelloWorldScreen />} />
             <Route path="/account" element={<RegisterUserScreen />} />
             <Route path="/filter" element={<FilterComponent/>} />
+            <Route path="/login" element={<LoginScreen/>}/>
           </Routes>
         </Container>
       </main>

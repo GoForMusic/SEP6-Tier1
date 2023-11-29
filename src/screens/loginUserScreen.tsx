@@ -6,6 +6,13 @@ import FormContainer from "../components/formContainer";
 import { login } from "../thunks/loginUserThunk";
 import { RootState } from "../store";
 import { AppDispatch } from "../store";
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import { setError, registerAccount } from "../thunks/registerAccountThunk";
+import { registerWithGoogle,  setErrorGoogle} from "../thunks/googleRegisterThunk";
+
+
+
+const clientId = "110067314755-c854rf3970nmipcdct7441sevchccffk.apps.googleusercontent.com";
 
 const LoginScreen = () => {
   const [username, setUsername] = useState("");
@@ -29,7 +36,7 @@ const LoginScreen = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/");
+      navigate("/home");
     }
   }, [userInfo, navigate, isLoggedIn]);
 
@@ -37,6 +44,13 @@ const LoginScreen = () => {
     e.preventDefault();
     dispatch(login(username, password));
   };
+
+  const onGoogleSuccess = () => {
+    
+    dispatch(registerWithGoogle)
+    console.log();
+  
+    };
 
   return (
     <FormContainer>
@@ -70,9 +84,17 @@ const LoginScreen = () => {
         <Button variant="primary" type="submit" className="my-3">
           Login
         </Button>
+        <GoogleLogin
+      clientId={clientId}
+      buttonText="Login with Google"
+      onSuccess={onGoogleSuccess}
+      onFailure={setErrorGoogle}
+      cookiePolicy={'single_host_origin'}
+    />
+     
       </Form>
     </FormContainer>
-  );
-};
+  );}
+;
 
 export default LoginScreen;
