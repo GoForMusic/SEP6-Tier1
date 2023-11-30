@@ -46,12 +46,15 @@ const LoginScreen = () => {
     dispatch(login(username, password));
   };
 
-  const onGoogleSuccess = () => {
-    
-    dispatch(registerWithGoogle)
-    console.log();
-  
-    };
+  const onGoogleSuccessfull = (response) => {
+    // Access the user's email from the Google Sign-In response
+    const userEmail = response.profileObj.email;
+
+    // Dispatch the registerWithGoogle action with the obtained email
+    dispatch(registerWithGoogle(userEmail, "some-password"));
+
+    console.log("User Email from Google:", userEmail);
+  };
 
   return (
     <GoogleOAuthProvider clientId={clientId}> 
@@ -86,22 +89,13 @@ const LoginScreen = () => {
         <Button variant="primary" type="submit" className="my-3">
           Login
         </Button>
-        {/* <GoogleLogin
-      clientId={clientId}
-      buttonText="Login with Google"
-      onSuccess={onGoogleSuccess}
-      onFailure={setErrorGoogle}
-      cookiePolicy={'single_host_origin'}
-    /> */}
-
-<GoogleLogin
-  onSuccess={onGoogleSuccess => {
-    console.log(onGoogleSuccess);
-  }}
+        <GoogleLogin
+     onSuccess={onGoogleSuccessfull}
   onError={() => {
     console.log('Login Failed');
   }}
 />;
+
      
       </Form>
     </FormContainer>

@@ -10,7 +10,7 @@ import { FILTER_BY_RATE_REQ,
 
 
 
-export const filterByRate = (rate: String) => 
+export const filterByRate = (rate: any) => 
     async (dispatch : Dispatch) => {
 
   try {
@@ -21,7 +21,7 @@ export const filterByRate = (rate: String) =>
     
     const response = await fetch('https://tier2.azurewebsites.net/filterByRate', {
         mode: 'cors',
-        method: 'GET',
+        method: 'POST',
         headers: {
         'Content-Type': 'application/json'}
     });
@@ -44,13 +44,13 @@ export const filterByRate = (rate: String) =>
 };
 
 
-export const filterByGenre = (genre: String) => 
+export const filterByGenre = (genre: any) => 
     async (dispatch : Dispatch) => {
 
         try {
             const response = await fetch('https://tier2.azurewebsites.net/filterByGenre', {
                 mode: 'cors',
-                method: 'GET',
+                method: 'POST',
                 headers: {
                 'Content-Type': 'application/json'}
             });
@@ -76,13 +76,13 @@ export const filterByGenre = (genre: String) =>
 
 
 
-export const filterByDirector = (director: String) => 
+export const filterByDirector = (director: any) => 
     async (dispatch : Dispatch) => {
 
         try {
             const response = await fetch('https://tier2.azurewebsites.net/filterByDirector', {
                 mode: 'cors',
-                method: 'GET',
+                method: 'POST',
                 headers: {
                 'Content-Type': 'application/json'}
             });
