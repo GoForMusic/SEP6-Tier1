@@ -1,7 +1,13 @@
 import { GOOGLE_REGISTER_SUCCESS, GOOGLE_REGISTER_FAIL, GOOGLE_REGISTER_REQ } from '../constants/userRegister'
 import { Dispatch } from "redux";
+import type { RootState, AppDispatch } from '../store'
+import { response } from 'express';
 
-export const registerWithGoogle = (email: String, password: string) => 
+
+
+export const registerWithGoogle = (email: any, password: any) => 
+
+
   async (dispatch : Dispatch) => {
 
     try {
@@ -14,8 +20,16 @@ export const registerWithGoogle = (email: String, password: string) =>
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({username: email.split('@')[0], password})
+                // body: JSON.stringify("")
               
+                
+
             });
+
+
+            console.log(response.body);
+          
+            
 
             const data = await response.json();
 
