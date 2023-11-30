@@ -6,9 +6,11 @@ import FormContainer from "../components/formContainer";
 import { login } from "../thunks/loginUserThunk";
 import { RootState } from "../store";
 import { AppDispatch } from "../store";
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
+// import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { setError, registerAccount } from "../thunks/registerAccountThunk";
 import { registerWithGoogle,  setErrorGoogle} from "../thunks/googleRegisterThunk";
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 
 
 
@@ -53,6 +55,7 @@ const LoginScreen = () => {
     };
 
   return (
+    <GoogleOAuthProvider clientId={clientId}> 
     <FormContainer>
       <h1>Login</h1>
 
@@ -84,16 +87,26 @@ const LoginScreen = () => {
         <Button variant="primary" type="submit" className="my-3">
           Login
         </Button>
-        <GoogleLogin
+        {/* <GoogleLogin
       clientId={clientId}
       buttonText="Login with Google"
       onSuccess={onGoogleSuccess}
       onFailure={setErrorGoogle}
       cookiePolicy={'single_host_origin'}
-    />
+    /> */}
+
+<GoogleLogin
+  onSuccess={onGoogleSuccess => {
+    console.log(onGoogleSuccess);
+  }}
+  onError={() => {
+    console.log('Login Failed');
+  }}
+/>;
      
       </Form>
     </FormContainer>
+    </GoogleOAuthProvider>
   );}
 ;
 
