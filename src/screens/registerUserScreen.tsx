@@ -55,6 +55,8 @@ const RegisterScreen = () => {
 
     // dispatch reg req to reducer? if validations pass
     dispatch(registerAccount(username, password));
+    console.log();
+    
   };
 
   return (
@@ -64,6 +66,8 @@ const RegisterScreen = () => {
       {error && (
         <div style={{ color: "red" }}> {interpretErrorMessage(error)} </div>
       )}
+      <br>
+      </br>
 
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="username" className="my-3">
@@ -96,7 +100,7 @@ const RegisterScreen = () => {
           />
         </Form.Group>
 
-        <Button variant="primary" type="submit" className="my-3">
+        <Button onSubmit={submitHandler} variant="primary" type="submit" className="my-3">
           sign up!
         </Button>
       </Form>
