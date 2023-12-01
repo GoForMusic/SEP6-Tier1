@@ -22,6 +22,8 @@ export const registerAccount = (username: String, password: string) =>
             });
 
             const data = await response.json();
+            console.log(response.json);
+            
 
             dispatch({
               type: USER_REGISTER_SUCCESS,

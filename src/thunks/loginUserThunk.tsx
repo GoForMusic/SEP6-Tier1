@@ -18,7 +18,8 @@ export const login = ( username: String, password: String) =>
       });
 
       const response = await fetch("https://tier2.azurewebsites.net/login", {
-        method: "GET",
+        mode: 'cors',
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         // credentials: "include",
         body: JSON.stringify({
@@ -26,6 +27,17 @@ export const login = ( username: String, password: String) =>
           password,
         }),
       });
+
+      if (!response.ok) {
+        // Handle non-successful responses
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      // Handle non-JSON responses
+      throw new Error("Response is not in JSON format");
+    }
 
       const data = await response.json();
       const userData = { userId: data.userId, username: data.username };

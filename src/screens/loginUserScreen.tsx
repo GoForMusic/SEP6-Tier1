@@ -8,12 +8,12 @@ import { RootState } from "../store";
 import { AppDispatch } from "../store";
 import { setError, registerAccount } from "../thunks/registerAccountThunk";
 import { registerWithGoogle,  setErrorGoogle} from "../thunks/googleRegisterThunk";
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleOAuthProvider, useGoogleLogin, GoogleLogin, CodeClientConfig } from '@react-oauth/google';
 
 
 
-const clientId = "110067314755-c854rf3970nmipcdct7441sevchccffk.apps.googleusercontent.com";
+
+const clientId = "110067314755-tpum3uuch9l0ksvp8oulomfm5d35jq1n.apps.googleusercontent.com";
 
 const LoginScreen = () => {
   const [username, setUsername] = useState("");
@@ -46,18 +46,26 @@ const LoginScreen = () => {
     dispatch(login(username, password));
   };
 
+
+
   const onGoogleSuccessfull = (response) => {
-    // Access the user's email from the Google Sign-In response
-    const userEmail = response.profileObj.email;
-
-    // Dispatch the registerWithGoogle action with the obtained email
-    dispatch(registerWithGoogle(userEmail, "some-password"));
-
-    console.log("User Email from Google:", userEmail);
+    // Ensure that the response object and profileObj are defined
+    if (response && response.profileObj && response.profileObj.email) {
+      // Access the user's email from the Google Sign-In response
+      const userEmail = response.profileObj.email;
+  
+      // Dispatch the registerWithGoogle action with the obtained email
+      dispatch(registerWithGoogle(userEmail, "some-password"));
+  
+      console.log("User Email from Google:", userEmail);
+    } else {
+      console.error('Invalid Google login response:', response);
+      // Handle the case where email is not available in the response
+    }
   };
 
   return (
-    <GoogleOAuthProvider clientId={clientId}> 
+     <GoogleOAuthProvider clientId={clientId}> 
     <FormContainer>
       <h1>Login</h1>
 
@@ -93,13 +101,19 @@ const LoginScreen = () => {
      onSuccess={onGoogleSuccessfull}
   onError={() => {
     console.log('Login Failed');
+    
   }}
+
+  useOneTap
+  
 />;
+
+{/* <Button onClick={() => login()}>Sign in with Google 🚀</Button>; */}
 
      
       </Form>
     </FormContainer>
-    </GoogleOAuthProvider>
+   </GoogleOAuthProvider>
   );}
 ;
 
