@@ -4,7 +4,7 @@ import "./App.css";
 import HelloWorldScreen from "./screens/HelloWorldScreen";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import RegisterUserScreen from "./screens/registerUserScreen";
-import FilterComponent from "./components/filterComponent";
+import FilterYearComponent from "./components/filterYearComponent";
 import LoginScreen from "./screens/loginUserScreen";
 
 const App = () => {
@@ -15,7 +15,7 @@ const App = () => {
           <Routes>
             <Route path="/helloworld" element={<HelloWorldScreen />} />
             <Route path="/account" element={<RegisterUserScreen />} />
-            <Route path="/filter" element={<FilterComponent/>} />
+            <Route path="/filter" element={<FilterYearComponent/>} />
             <Route path="/login" element={<LoginScreen/>}/>
           </Routes>
         </Container>
