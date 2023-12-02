@@ -3,10 +3,11 @@ import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import { helloWorldReducer, loginUserReducer,
          registerUserReducer, filterReducer, 
-         filterByDirector} from "./reducers";
+         filterByDirector, filterByRateReducer} from "./reducers";
 
 const reducers = combineReducers({
   helloWorldReducer, registerUserReducer, loginUserReducer, filterReducer, filterByDirector,
+  filterByRateReducer
 });
 
 

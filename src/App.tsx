@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import RegisterUserScreen from "./screens/registerUserScreen";
 import FilterYearComponent from "./components/filterYearComponent";
 import LoginScreen from "./screens/loginUserScreen";
+import FilterByRateComponent from "./components/filterByRateComponent";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
             <Route path="/account" element={<RegisterUserScreen />} />
             <Route path="/filter" element={<FilterYearComponent/>} />
             <Route path="/login" element={<LoginScreen/>}/>
+            <Route path="/rate" element={<FilterByRateComponent/>}/>
           </Routes>
         </Container>
       </main>
