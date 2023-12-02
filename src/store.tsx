@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
-import { helloWorldReducer, loginUserReducer, registerUserReducer } from "./reducers";
+import { helloWorldReducer, loginUserReducer, registerUserReducer, filterReducer } from "./reducers";
 
 const reducers = combineReducers({
-  helloWorldReducer, registerUserReducer, loginUserReducer
+  helloWorldReducer, registerUserReducer, loginUserReducer, filterReducer
 });
 
 
