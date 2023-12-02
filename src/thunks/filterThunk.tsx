@@ -6,7 +6,6 @@ import {
          FILTER_BY_YEAR_FAILED,
          FILTER_BY_YEAR_SUCCESS,
          } from '../constants/filter'; 
-import { log } from 'console';
 
 
 
@@ -97,42 +96,6 @@ export const filterByYear = (year: any) =>
       });
     }
   }
-
-
-
-
-// we are abandoning this for now, therefore commenting it out.
-
-// export const filterByGenre = (genre: any) => 
-//     async (dispatch : Dispatch) => {
-
-//         try {
-//             const response = await fetch('https://tier2.azurewebsites.net/filterByGenre', {
-//                 mode: 'cors',
-//                 method: 'POST',
-//                 headers: {
-//                 'Content-Type': 'application/json'}
-//             });
-        
-//               const filteredData = await response.json();
-//               const message = filteredData.message;
-        
-//               dispatch({
-//                 type: FILTER_BY_GENRE_REQ, 
-//                 payload: message, 
-//              });
-           
-//           } catch (error) {
-//             // Dispatch failure action if an error occurs
-//             dispatch({
-//                 type: FILTER_BY_GENRE_FAILED,
-//                 payload: "Error occured "
-//             });
-//           }
-//         };
-        
-
-
 
 
 // export const filterByDirector = (director: any) => 
