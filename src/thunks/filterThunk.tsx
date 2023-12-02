@@ -9,38 +9,6 @@ import {
 
 
 
-// export const filterByRate = (rate: any) => 
-//     async (dispatch : Dispatch) => {
-
-//   try {
-
-//     // dispatch({
-//     //     type: FILTER_BY_RATE_REQ
-//     // });
-    
-//     const response = await fetch('https://tier2.azurewebsites.net/filterByRate', {
-//         mode: 'cors',
-//         method: 'POST',
-//         headers: {
-//         'Content-Type': 'application/json'}
-//     });
-
-//       const filteredData = await response.json();
-//       const message = filteredData.message;
-
-//       dispatch({
-//         type: FILTER_BY_RATE_REQ, 
-//         payload: message, 
-//      });
-   
-//   } catch (error) {
-//     // Dispatch failure action if an error occurs
-//     dispatch({
-//         type: FILTER_BY_RATE_FAILED,
-//         payload: "Error occured "
-//     });
-//   }
-// };
 
 export const filterByYear = (year: any) => 
   async(dispatch : Dispatch) => {
@@ -96,37 +64,6 @@ export const filterByYear = (year: any) =>
       });
     }
   }
-
-
-// export const filterByDirector = (director: any) => 
-//     async (dispatch : Dispatch) => {
-
-//         try {
-//             const response = await fetch('https://tier2.azurewebsites.net/filterByDirector', {
-//                 mode: 'cors',
-//                 method: 'POST',
-//                 headers: {
-//                 'Content-Type': 'application/json'}
-//             });
-        
-//               const filteredData = await response.json();
-//               const message = filteredData.message;
-        
-//               dispatch({
-//                 type: FILTER_BY_DIRECTOR_REQ, 
-//                 payload: message, 
-//              });
-           
-//           } catch (error) {
-//             // Dispatch failure action if an error occurs
-//             dispatch({
-//                 type: FILTER_BY_DIRECTOR_FAILED,
-//                 payload: "Error occured "
-//             });
-//           }
-//         };
-        
-
 
 
 

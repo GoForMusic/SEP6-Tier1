@@ -1,5 +1,7 @@
-export const FILTER_BY_RATE_REQ = "FILTER_BY_RATE_REQ";
+// by rate
 
+export const FILTER_BY_RATE_REQ = "FILTER_BY_RATE_REQ";
+export const FILTER_BY_RATE_SUCCESS = "FILTER_BY_RATE_SUCCESS";
 export const FILTER_BY_RATE_FAILED = "FILTER_BY_RATE_FAILED";
 
 // by director
