@@ -1,32 +1,44 @@
-// FilterComponent.jsx
 import React, { useState } from 'react';
-import { Button, Form, Dropdown } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { filterByRate, filterByGenre, filterByDirector } from '../thunks/filterByRateThunk'; 
-import type { RootState, AppDispatch } from '../store'
+import { Button, Form } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { filterByYear } from '../thunks/filterThunk';
+import type { RootState, AppDispatch } from '../store';
+import { useNavigate } from 'react-router-dom';
 
 const FilterComponent = () => {
-  const [showFilters, setShowFilters] = useState(false);
-  
+  const [showYears, setShowYears] = useState(false);
+  const [selectedYear, setSelectedYear] = useState(null);
+
+  // Using useSelector to get data from the Redux store
+  const movies = useSelector((state: RootState) => state.filterReducer.movies);
 
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
-
-  const toggleFilters = () => {
-    setShowFilters(!showFilters);
+  const toggleYears = () => {
+    setShowYears(!showYears);
   };
 
-  // commenting it out so I can push, will get back to it 
+  const handleYearSelection = (year) => {
+    console.log('Selected Year:', year);
+    setSelectedYear(year);
 
-  const handleFilterSelection = (selectedFilter) => {
-    // Handle the selected filter, you can perform additional actions based on the selected filter
-    console.log('Selected Filter:', selectedFilter);
-
-    // Dispatch the thunk based on the selected filter
-    if (selectedFilter === 'Filter by Rate') {
-      dispatch(filterByRate(selectedFilter));
-    }
+    // Dispatch the thunk based on the selected year
+    dispatch(filterByYear(year)).catch((error) => console.error('Error:', error));
   };
+
+  const renderMovies = () => (
+    <div className="mt-2">
+      <h5>Filtered Movies:</h5>
+      <ul>
+        {movies.map((movie) => (
+          <li key={movie.id}>{`${movie.title} (${movie.year})`}</li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  const years = Array.from({ length: new Date().getFullYear() - 1950 + 1 }, (_, index) => 1950 + index);
 
   return (
     <div>
@@ -35,34 +47,26 @@ const FilterComponent = () => {
           <Form.Control type="text" placeholder="Search..." />
         </Form.Group>
 
-        <Button variant="primary" onClick={toggleFilters}>
-          Filter
+        <Button variant="primary" onClick={toggleYears}>
+          Filter by Year
         </Button>
 
-        {showFilters && (
-          <Dropdown className="mt-2">
-            <Dropdown.Toggle variant="secondary" id="filterDropdown">
-              Select Filter
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              <Dropdown.Item onSelect={() => handleFilterSelection('Filter by Rate')}>
-                Filter by Rate
-              </Dropdown.Item>
-              {/* Add more filter options as needed */}
-              <br>
-              </br>
-              <Dropdown.Item onSelect={() => handleFilterSelection('Filter by Rate')}>
-                Filter by Genre
-              </Dropdown.Item>
-              <br>
-              </br>
-              <Dropdown.Item onSelect={() => handleFilterSelection('Filter by Rate')}>
-                Filter by Director
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+        {showYears && (
+          <div className="mt-2">
+            {years.map((year) => (
+              <Button
+                key={year}
+                variant={selectedYear === year ? 'info' : 'light'}
+                onClick={() => handleYearSelection(year)}
+                className="mr-2 mb-2"
+              >
+                {year}
+              </Button>
+            ))}
+          </div>
         )}
+
+        {movies && movies.length > 0 && renderMovies()}
       </Form>
     </div>
   );

@@ -1,69 +1,52 @@
 import {
-  FILTER_BY_GENRE_REQ,
-  FILTER_BY_RATE_REQ,
-  FILTER_BY_DIRECTOR_REQ,
-  FILTER_BY_GENRE_FAILED,
-  FILTER_BY_RATE_FAILED,
-  FILTER_BY_DIRECTOR_FAILED,
+  FILTER_BY_YEAR_SUCCESS,
+  FILTER_BY_YEAR_FAILED,
+  FILTER_BY_YEAR_REQ,
 } from "../constants/filter";
 
 const initialState = {
-  isFilterApplied: false,
-  filterCriteria: null,
-  filteredData: null,
+  movies: [],
+  id: null,
+  title: null,
+  year: null,
   error: null,
 };
 
 const filterReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case FILTER_BY_GENRE_REQ:
+    case FILTER_BY_YEAR_REQ:
       return {
         ...state,
-        isFilterApplied: true,
-        filterCriteria: "genre",
-        filteredData: action.payload,
+        movies: [
+          {
+            id: null,
+            title: null,
+            year: null,
+          },
+        ],
+
         error: action.payload,
       };
-    case FILTER_BY_RATE_REQ:
+    case FILTER_BY_YEAR_SUCCESS:
       return {
         ...state,
-        isFilterApplied: true,
-        filterCriteria: "rate",
-        filteredData: action.payload,
+        movies: action.payload,
+        id: null,
+        title: null,
+        year: null,
         error: action.payload,
       };
-    case FILTER_BY_DIRECTOR_REQ:
+    case FILTER_BY_YEAR_FAILED:
       return {
         ...state,
-        isFilterApplied: true,
-        filterCriteria: "director",
-        filteredData: action.payload,
+        movies: null,
+        id: null,
+        title: null,
+        year: null,
         error: action.payload,
       };
-    case FILTER_BY_GENRE_FAILED:
-      return {
-        ...state,
-        isFilterApplied: false,
-        filterCriteria: "genre",
-        filteredData: null,
-        error: action.payload,
-      };
-    case FILTER_BY_RATE_FAILED:
-      return {
-        ...state,
-        isFilterApplied: false,
-        filterCriteria: "rate",
-        filteredData: null,
-        error: action.payload,
-      };
-    case FILTER_BY_DIRECTOR_FAILED:
-      return {
-        ...state,
-        isFilterApplied: false,
-        filterCriteria: "director",
-        filteredData: null,
-        error: action.payload,
-      };
+    default:
+      return state;
   }
 };
 
