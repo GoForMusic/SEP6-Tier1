@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { filterByRate } from '../thunks/filterByRateThunk'; // Make sure to import the correct path
-import type { RootState, AppDispatch } from '../store';
+import React, { useState } from "react";
+import { Button, Form } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { filterByRate } from "../thunks/filterThunk"; // Make sure to import the correct path
+import type { RootState, AppDispatch } from "../store";
 
 const FilterByRateComponent = () => {
   const [showRates, setShowRates] = useState(false);
   const [selectedRate, setSelectedRate] = useState(null);
 
   // Using useSelector to get data from the Redux store
-  const movies = useSelector((state: RootState) => state.filterByRateReducer.movies);
+  const movies = useSelector((state: RootState) => state.filterReducer.movies);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -18,11 +18,13 @@ const FilterByRateComponent = () => {
   };
 
   const handleRateSelection = (rate) => {
-    console.log('Selected Rate:', rate);
+    console.log("Selected Rate:", rate);
     setSelectedRate(rate);
 
     // Dispatch the thunk based on the selected rate
-    dispatch(filterByRate(rate)).catch((error) => console.error('Error:', error));
+    dispatch(filterByRate(rate)).catch((error) =>
+      console.error("Error:", error)
+    );
   };
 
   const renderMovies = () => (
@@ -30,7 +32,9 @@ const FilterByRateComponent = () => {
       <h5>Filtered Movies:</h5>
       <ul>
         {movies.map((movie, index) => (
-          <li key={index}>{` Title:  ${movie?.movie_id.title}  Rating: ${movie?.ratingValue}    Year:  ${movie?.movie_id.year}`}</li>
+          <li
+            key={index}
+          >{` Title:  ${movie?.movie_id.title}  Rating: ${movie?.ratingValue}    Year:  ${movie?.movie_id.year}`}</li>
         ))}
       </ul>
     </div>
@@ -48,7 +52,7 @@ const FilterByRateComponent = () => {
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((rate) => (
               <Button
                 key={rate}
-                variant={selectedRate === rate ? 'info' : 'light'}
+                variant={selectedRate === rate ? "info" : "light"}
                 onClick={() => handleRateSelection(rate)}
                 className="mr-2 mb-2"
               >

@@ -1,74 +1,91 @@
-// yourThunkFile.js
-import { ThunkAction } from 'redux-thunk';
-import { Dispatch } from 'redux';
+import { Dispatch } from "redux";
 import {
-         FILTER_BY_YEAR_REQ,
-         FILTER_BY_YEAR_FAILED,
-         FILTER_BY_YEAR_SUCCESS,
-         } from '../constants/filter'; 
+  FILTER_BY_DIRECTOR,
+  FILTER_BY_GENRE,
+  FILTER_BY_RATE,
+  FILTER_BY_YEAR,
+  FILTER_FAILED,
+} from "../constants/filter";
 
+///api url wrapped within constant - bcs it is the same for all req and used in many places.
 
+const API_BASE_URL = "https://tier2.azurewebsites.net"; 
 
+//##########################################################################################
+//ABSTRACT LOGIC FOR CODE REUSABILITY: (this piece is always used with each request, 
+//        since we have many same kind of requests, there was a need to create such function 
+//          so that the code would be reused. It also makes it more simple to read)
 
-export const filterByYear = (year: any) => 
-  async(dispatch : Dispatch) => {
+async function fetchFromAPI(endpoint: string, method: string = "GET") {
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    mode: "cors",
+    method: method,
+    headers: { "Content-Type": "application/json" },
+  });
+  return response.json();
+}
 
+//##########################################################################################
+//                                       GENRE
+//##########################################################################################
+
+export const filterByGenre = (genre: string) => async (dispatch: Dispatch) => {
+  try {
+    const filteredData = await fetchFromAPI(`/filterByGenre`, "POST"); // Assuming POST request doesn't need body here
+    dispatch({ type: FILTER_BY_GENRE, payload: filteredData });
+  } catch (error) {
     dispatch({
-      type: FILTER_BY_YEAR_REQ, 
-      
-   });
-
-    try {
-
-      const apiUrl = `https://tier2.azurewebsites.net/movies/year/${year}`;
-
-      console.log("thats before the api call");
-      console.log('API URL: ', apiUrl);
-      
-      const response = await fetch(`https://tier2.azurewebsites.net/movies/year/${year}`, {
-        mode: 'cors',
-        method: 'GET',
-        headers: {
-        'Content-Type': 'application/json'}
+      type: FILTER_FAILED,
+      payload: `Error occurred: ${error.message}`,
     });
-
-    if (response.ok) {
-      // Parse the response JSON
-      const filteredData = await response.json()
-      // const moviesList = filteredData.data;
-      dispatch({
-        type: FILTER_BY_YEAR_SUCCESS,
-        payload: filteredData,
-      });
-      console.log("filtered data from the THUNK: ", filteredData);
-      
-     
-
-    } else {
-      console.log("API Error", response.statusText);
-      
-      // If the response is not successful, dispatch the failure action with an error message
-      dispatch({
-        type: FILTER_BY_YEAR_FAILED,
-        payload: `Error: ${response.statusText}`,
-      });
-    }
-
-    }  catch (error) {
-      console.log("error in the final dispatch in the thunk", error.message);
-      
-      // Dispatch failure action if an error occurs
-      dispatch({
-          type: FILTER_BY_YEAR_FAILED,
-          payload: `Error occurred: ${error.message}`,
-      });
-    }
   }
+};
 
+//##########################################################################################
+//                                       RATE
+//##########################################################################################
 
+export const filterByRate = (rate: string) => async (dispatch: Dispatch) => {
+  try {
+    const filteredData = await fetchFromAPI(`/movies/rating/${rate}`);
+    dispatch({ type: FILTER_BY_RATE, payload: filteredData });
+  } catch (error) {
+    dispatch({
+      type: FILTER_FAILED,
+      payload: `Error occurred: ${error.message}`,
+    });
+  }
+};
 
+//##########################################################################################
+//                                       DIRECTOR
+//##########################################################################################
 
-    
+export const filterByDirector =
+  (name: string) => async (dispatch: Dispatch) => {
+    try {
+      const filteredData = await fetchFromAPI(`/directors/search/${name}`);
+      dispatch({ type: FILTER_BY_DIRECTOR, payload: filteredData });
+    } catch (error) {
+      dispatch({
+        type: FILTER_FAILED,
+        payload: `Error occurred: ${error.message}`,
+      });
+    }
+  };
 
+//##########################################################################################
+//                                       YEAR
+//##########################################################################################
 
-    
+export const filterByYear = (year: string) => async (dispatch: Dispatch) => {
+  try {
+    const filteredData = await fetchFromAPI(`/movies/year/${year}`);
+    dispatch({ type: FILTER_BY_YEAR, payload: filteredData });
+  } catch (error) {
+    dispatch({
+      type: FILTER_FAILED,
+      payload: `Error occurred: ${error.message}`,
+    });
+  }
+};

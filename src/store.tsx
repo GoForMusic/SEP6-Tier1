@@ -1,15 +1,19 @@
 import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
-import { helloWorldReducer, loginUserReducer,
-         registerUserReducer, filterReducer, 
-         filterByDirector, filterByRateReducer} from "./reducers";
+import {
+  helloWorldReducer,
+  loginUserReducer,
+  registerUserReducer,
+  filterReducer,
+} from "./reducers";
 
 const reducers = combineReducers({
-  helloWorldReducer, registerUserReducer, loginUserReducer, filterReducer, filterByDirector,
-  filterByRateReducer
+  helloWorldReducer,
+  registerUserReducer,
+  loginUserReducer,
+  filterReducer,
 });
-
 
 const store = configureStore({
   reducer: reducers,
