@@ -6,9 +6,11 @@ import {
   loginUserReducer,
   registerUserReducer,
   filterReducer,
+  authReducer,
 } from "./reducers";
 
 const reducers = combineReducers({
+  auth: authReducer,
   helloWorldReducer,
   registerUserReducer,
   loginUserReducer,
