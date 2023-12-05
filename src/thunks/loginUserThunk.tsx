@@ -17,7 +17,7 @@ export const login = ( username: String, password: String) =>
         type: USER_LOGIN_REQ,
       });
 
-      const response = await fetch("https://tier2.azurewebsites.net/login", {
+      const response = await fetch("https://tier2.azurewebsites.net/account/login", {
         mode: 'cors',
         method: "POST",
         headers: { "Content-Type": "application/json" },

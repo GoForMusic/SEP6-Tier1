@@ -7,6 +7,7 @@ import RegisterUserScreen from "./screens/registerUserScreen";
 import FilterYearComponent from "./components/filterYearComponent";
 import LoginScreen from "./screens/loginUserScreen";
 import FilterByRateComponent from "./components/filterByRateComponent";
+import HomeScreen from '../src/screens/homeScreen'
 
 const App = () => {
   return (
@@ -17,8 +18,9 @@ const App = () => {
             <Route path="/helloworld" element={<HelloWorldScreen />} />
             <Route path="/account" element={<RegisterUserScreen />} />
             <Route path="/filter" element={<FilterYearComponent/>} />
-            <Route path="/login" element={<LoginScreen/>}/>
+            <Route path="/account/login" element={<LoginScreen/>}/>
             <Route path="/rate" element={<FilterByRateComponent/>}/>
+            <Route path="/home" element={<HomeScreen/>}/>
           </Routes>
         </Container>
       </main>
