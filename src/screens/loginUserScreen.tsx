@@ -9,7 +9,7 @@ import { AppDispatch } from "../store";
 import { setError, registerAccount } from "../thunks/registerAccountThunk";
 import { registerWithGoogle,  setErrorGoogle} from "../thunks/googleRegisterThunk";
 import { GoogleOAuthProvider, useGoogleLogin, GoogleLogin, CodeClientConfig } from '@react-oauth/google';
-import  CommentForm  from '../components/commentComponent';
+
 
 
 
@@ -66,7 +66,7 @@ const LoginScreen = () => {
 
   return (
      <GoogleOAuthProvider clientId={clientId}> 
-     <CommentForm/>
+     
     <FormContainer>
       <h1>Login</h1>
 
