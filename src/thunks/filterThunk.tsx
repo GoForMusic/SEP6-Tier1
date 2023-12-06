@@ -29,7 +29,7 @@ async function fetchFromAPI1(endpoint: string, method: string = "GET") {
 }
 
 async function fetchFromAPI2_Details(movieId: string): Promise<MovieData> {
-  const url = `${TMDB_BASE_URL}/3/movie/${movieId}?api_key=5744953525420c39a75a008af565af7c`; //FUCK SECURITY :)
+  const url = `${TMDB_BASE_URL}/3/movie/${movieId}?api_key=`; //FUCK SECURITY :)
   try {
     const response = await fetchJsonp(url, "callbackFunctionName");
     return response as MovieData; // Type assertion to MovieData
