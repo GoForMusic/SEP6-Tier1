@@ -29,7 +29,7 @@ async function fetchFromAPI1(endpoint: string, method: string = "GET") {
 }
 
 async function fetchFromAPI2_Details(movieId: string): Promise<MovieData> {
-  const url = `${TMDB_BASE_URL}/3/movie/${movieId}?api_key=`; //FUCK SECURITY :)
+  const url = `${TMDB_BASE_URL}/3/movie/${movieId}?api_key=5744953525420c39a75a008af565af7c`; //FUCK SECURITY :)
   try {
     const response = await fetchJsonp(url, "callbackFunctionName");
     return response as MovieData; // Type assertion to MovieData
@@ -98,12 +98,12 @@ export const filterByYear = (year: string) => async (dispatch: Dispatch) => {
 
     for (const movie of filteredData) {
       try {
-        console.log(`${movie.id.toString()}`); // CHECK LATER WHAT CAN WE DO ABOUT TT00, SOME ID'S FUCKED UP
-        const movieData = await fetchFromAPI2_Details(
-          `tt${movie.id.toString()}`
-        );
-        movie.poster =
-          "https://image.tmdb.org/t/p/original" + movieData.poster_path;
+        console.log(`${movie.id.toString()}`);
+        let goodString = movie.id.toString().padStart(7, "0");
+        // CHECK LATER WHAT CAN WE DO ABOUT TT00, SOME ID'S FUCKED UP
+        console.log(goodString);
+        const movieData = await fetchFromAPI2_Details(`tt${goodString}`);
+        movie.poster = movieData.poster_path;
         console.log(movie.poster);
         console.log(filteredData);
       } catch (error) {
