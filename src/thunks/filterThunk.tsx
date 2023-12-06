@@ -13,6 +13,7 @@ import { MovieData } from "../Interfaces/MovieData";
 
 const API_BASE_URL = "https://tier2.azurewebsites.net";
 const TMDB_BASE_URL = "https://api.themoviedb.org";
+const TMDB_apiKey = process.env.REACT_APP_TMDB_API_KEY;
 
 //##########################################################################################
 //ABSTRACT LOGIC FOR CODE REUSABILITY: (this piece is always used with each request,
@@ -29,7 +30,7 @@ async function fetchFromAPI1(endpoint: string, method: string = "GET") {
 }
 
 async function fetchFromAPI2_Details(movieId: string): Promise<MovieData> {
-  const url = `${TMDB_BASE_URL}/3/movie/${movieId}?api_key=`; //FUCK SECURITY :)
+  const url = `${TMDB_BASE_URL}/3/movie/${movieId}?api_key=${TMDB_apiKey}`; //FUCK SECURITY :)
   try {
     const response = await fetchJsonp(url, "callbackFunctionName");
     return response as MovieData; // Type assertion to MovieData

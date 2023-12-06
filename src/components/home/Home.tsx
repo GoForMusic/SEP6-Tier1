@@ -14,7 +14,7 @@ const Home = () => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(filterByYear("2026"));
+    dispatch(filterByYear("1998"));
   }, [dispatch]);
 
   return (
