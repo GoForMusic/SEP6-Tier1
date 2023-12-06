@@ -14,7 +14,7 @@ const Home = () => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(filterByYear("2020"));
+    dispatch(filterByYear("2026"));
   }, [dispatch]);
 
   return (
@@ -31,8 +31,10 @@ const Home = () => {
               key={i}
               clickable={true}
               image={
-                element.poster && element.poster !== "N/A"
-                  ? element.poster
+                element.poster &&
+                element.poster !== "N/A" &&
+                element.poster !== "null"
+                  ? "https://image.tmdb.org/t/p/original" + element.poster
                   : "https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg"
               }
               movieId={element.id}

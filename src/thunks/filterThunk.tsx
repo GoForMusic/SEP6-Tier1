@@ -98,12 +98,12 @@ export const filterByYear = (year: string) => async (dispatch: Dispatch) => {
 
     for (const movie of filteredData) {
       try {
-        console.log(`${movie.id.toString()}`); // CHECK LATER WHAT CAN WE DO ABOUT TT00, SOME ID'S FUCKED UP
-        const movieData = await fetchFromAPI2_Details(
-          `tt${movie.id.toString()}`
-        );
-        movie.poster =
-          "https://image.tmdb.org/t/p/original" + movieData.poster_path;
+        console.log(`${movie.id.toString()}`);
+        let goodString = movie.id.toString().padStart(7, "0");
+        // CHECK LATER WHAT CAN WE DO ABOUT TT00, SOME ID'S FUCKED UP
+        console.log(goodString);
+        const movieData = await fetchFromAPI2_Details(`tt${goodString}`);
+        movie.poster = movieData.poster_path;
         console.log(movie.poster);
         console.log(filteredData);
       } catch (error) {
