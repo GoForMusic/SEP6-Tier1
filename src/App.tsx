@@ -16,7 +16,6 @@ const App = () => {
         <Container>
           <Routes>
             <Route path="/helloworld" element={<HelloWorldScreen />} />
-            <Route path="/movies" element={<Home />} />
             <Route path="/account" element={<RegisterUserScreen />} />
             <Route path="/filter" element={<FilterYearComponent />} />
             <Route path="/account/login" element={<LoginScreen />} />
