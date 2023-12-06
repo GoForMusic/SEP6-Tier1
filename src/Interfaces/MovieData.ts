@@ -4,7 +4,7 @@ export interface MovieData {
     Rated: string;
     Released: string;
     Runtime: string;
-    Poster: string;
+    poster_path: string;
     // add other properties as needed
   }
   
