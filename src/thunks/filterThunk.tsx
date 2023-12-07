@@ -30,7 +30,7 @@ async function fetchFromAPI1(endpoint: string, method: string = "GET") {
 }
 
 async function fetchFromAPI2_Details(movieId: string): Promise<MovieData> {
-  const url = `${TMDB_BASE_URL}/3/movie/${movieId}?api_key=${TMDB_apiKey}`; //FUCK SECURITY :)
+  const url = `${TMDB_BASE_URL}/3/movie/${movieId}?api_key=${TMDB_apiKey}`;
   try {
     const response = await fetchJsonp(url, "callbackFunctionName");
     return response as MovieData; // Type assertion to MovieData
@@ -96,17 +96,11 @@ export const filterByDirector =
 export const filterByYear = (year: string) => async (dispatch: Dispatch) => {
   try {
     const filteredData = await fetchFromAPI1(`/movies/year/${year}`);
-
     for (const movie of filteredData) {
       try {
-        console.log(`${movie.id.toString()}`);
         let goodString = movie.id.toString().padStart(7, "0");
-        // CHECK LATER WHAT CAN WE DO ABOUT TT00, SOME ID'S FUCKED UP
-        console.log(goodString);
         const movieData = await fetchFromAPI2_Details(`tt${goodString}`);
         movie.poster = movieData.poster_path;
-        console.log(movie.poster);
-        console.log(filteredData);
       } catch (error) {
         console.error(
           `Error fetching details for movie ID ${movie.id}:`,
@@ -114,7 +108,6 @@ export const filterByYear = (year: string) => async (dispatch: Dispatch) => {
         );
       }
     }
-
     dispatch({ type: FILTER_BY_YEAR, payload: filteredData });
   } catch (error) {
     dispatch({
