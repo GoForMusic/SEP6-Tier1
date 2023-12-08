@@ -3,7 +3,7 @@ import {
     FILTER_BY_DIRECTOR,
     FILTER_BY_RATE,
     FILTER_FAILED,
-    FILTER_REQ,
+    FETCH_MOVIES_REQ,
     FILTER_BY_GENRE,
     PREV_PAGE, 
     NEXT_PAGE
@@ -25,9 +25,10 @@ import {
       //     page: action.payload
       //   };
 
-      case FILTER_REQ:
+      case FETCH_MOVIES_REQ: // LOADER AND ETC
         return {
           ...state,
+          movies: [],
           loading: true,
         };
       case PREV_PAGE:
@@ -35,7 +36,7 @@ import {
         ...state,
         page: Math.max(1, state.page - 1),
       };
-    case NEXT_PAGE:
+      case NEXT_PAGE:
       return {
         ...state,
         page: state.page + 1,
@@ -64,7 +65,7 @@ import {
           error: null,
         };
   
-      case FILTER_FAILED:
+        case FILTER_FAILED:
         return {
           ...state,
           loading: false,

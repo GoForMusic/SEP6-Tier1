@@ -1,4 +1,4 @@
-export const FILTER_REQ = "FILTER_REQ";
+export const FETCH_MOVIES_REQ = "FETCH_MOVIES_REQ";
 export const FILTER_FAILED = "FILTER_FAILED";
 // by rate
 export const FILTER_BY_RATE = "FILTER_BY_RATE";
