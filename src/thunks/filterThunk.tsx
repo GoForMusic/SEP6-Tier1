@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
 import {
+  FETCH_MOVIES_REQ,
   FILTER_BY_DIRECTOR,
   FILTER_BY_GENRE,
   FILTER_BY_RATE,
@@ -96,7 +97,7 @@ export const filterByDirector = //// SEARH BY DIRECTOR NOT FILTER
 export const filterByYear =
   (year: string, pageNr: number) => async (dispatch: Dispatch) => {
     try {
-      
+      dispatch({type: FETCH_MOVIES_REQ});
       const filteredData = await fetchFromAPI1(
         `/movies/year/${year}?pageNumber=${pageNr}`
       );
