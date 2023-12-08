@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./home.css";
 import type { RootState, AppDispatch } from "../../store";
 import { filterByYear } from "../../thunks/filterThunk"; // Make sure to import the correct path
@@ -12,6 +12,7 @@ import {
 import { Link } from "react-router-dom";
 import { styled } from "@mui/system";
 import { useTheme } from "@mui/material/styles";
+import { nextPage, prevPage } from "../../Actions/pagination";
 
 // PUT IN COMPONENTS:
 const ImgStyled = styled("img")({
@@ -48,37 +49,62 @@ const Home = () => {
   const imageListWidth = `calc((290px * ${cols}) + (12px * ${cols - 1}))`;
 
   const movies = useSelector((state: RootState) => state.movieReducer.movies);
+  const page = useSelector((state: RootState) => state.movieReducer.page);
   const dispatch: AppDispatch = useDispatch();
 
+  const handlePrevClick = () => {
+    dispatch(prevPage());
+  };
+
+  const handleNextClick = () => {
+    dispatch(nextPage());
+  };
+
   useEffect(() => {
-    dispatch(filterByYear("1998", 0));
-  }, [dispatch]);
+    dispatch(filterByYear("1998", page));
+  }, [dispatch, page]);
 
   return (
-    <ImageList
-      cols={cols}
-      rowHeight={435}
-      gap={12}
-      style={{
-        overflow: "hidden",
-        width: imageListWidth,
-        margin: "auto",
-      }}
-    >
-      {movies.map((movie) => (
-        <ImageListItemStyled key={movie.id} style={{ width: "290px" }}>
-          <Link to={`/movie/${movie.id}`}>
-            {movie.poster && (
-              <ImgStyled src={`${movie.poster}`} alt={movie.title} />
-            )}
-            <ImageListItemBar
-              title={movie.title}
-              subtitle={<span>{movie.id}</span>}
-            />
-          </Link>
-        </ImageListItemStyled>
-      ))}
-    </ImageList>
+    <>
+      <ImageList
+        cols={cols}
+        rowHeight={435}
+        gap={12}
+        style={{
+          overflow: "hidden",
+          width: imageListWidth,
+          margin: "auto",
+        }}
+      >
+        {movies.map((movie) => (
+          <ImageListItemStyled key={movie.id} style={{ width: "290px" }}>
+            <Link to={`/movie/${movie.id}`}>
+              {movie.poster && (
+                <ImgStyled src={`${movie.poster}`} alt={movie.title} />
+              )}
+              <ImageListItemBar
+                title={movie.title}
+                subtitle={<span>{movie.id}</span>}
+              />
+            </Link>
+          </ImageListItemStyled>
+        ))}
+      </ImageList>
+
+      <div
+        style={{
+          display: "flex", // Use flexbox
+          justifyContent: "center", // Center children horizontally
+          alignItems: "center", // Center children vertically (if needed)
+          flexDirection: "row", // Arrange children in a row
+          gap: "10px", // Puts space between the children
+        }}
+      >
+        <button onClick={handlePrevClick}>Previous</button>
+        <p>{page}</p>
+        <button onClick={handleNextClick}>Next</button>
+      </div>
+    </>
   );
 };
 

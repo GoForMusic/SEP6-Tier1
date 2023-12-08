@@ -5,7 +5,7 @@ import {
   FILTER_BY_RATE,
   FILTER_BY_YEAR,
   FILTER_FAILED,
-} from "../constants/filter";
+} from "../constants/movies";
 import fetchJsonp from "../HelperFunctions/fetchJsonp";
 import { MovieData } from "../Interfaces/MovieData";
 
@@ -76,7 +76,7 @@ export const filterByRate = (rate: string) => async (dispatch: Dispatch) => {
 //                                       DIRECTOR
 //##########################################################################################
 
-export const filterByDirector =
+export const filterByDirector = //// SEARH BY DIRECTOR NOT FILTER
   (name: string) => async (dispatch: Dispatch) => {
     try {
       const filteredData = await fetchFromAPI1(`/directors/search/${name}`);
@@ -96,6 +96,7 @@ export const filterByDirector =
 export const filterByYear =
   (year: string, pageNr: number) => async (dispatch: Dispatch) => {
     try {
+      
       const filteredData = await fetchFromAPI1(
         `/movies/year/${year}?pageNumber=${pageNr}`
       );

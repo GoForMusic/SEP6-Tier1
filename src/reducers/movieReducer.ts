@@ -5,13 +5,15 @@ import {
     FILTER_FAILED,
     FILTER_REQ,
     FILTER_BY_GENRE,
+    PREV_PAGE, 
+    NEXT_PAGE
   
-  } from "../constants/filter";
+  } from "../constants/movies";
   
   const initialState = {
     movies: [],
     loading: false, // for spinner, when fetching movies
-    page: 0 // for pagination to track what is the current page.
+    page: 1 // for pagination to track what is the current page.
   };
   
   const movieReducer = (state = initialState, action: any) => {
@@ -28,7 +30,16 @@ import {
           ...state,
           loading: true,
         };
-    
+      case PREV_PAGE:
+      return {
+        ...state,
+        page: Math.max(1, state.page - 1),
+      };
+    case NEXT_PAGE:
+      return {
+        ...state,
+        page: state.page + 1,
+      };
       case FILTER_BY_YEAR:
         return {
           ...state,
