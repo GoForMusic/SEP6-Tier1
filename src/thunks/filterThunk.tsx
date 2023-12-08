@@ -93,26 +93,34 @@ export const filterByDirector =
 //                                       YEAR
 //##########################################################################################
 
-export const filterByYear = (year: string) => async (dispatch: Dispatch) => {
-  try {
-    const filteredData = await fetchFromAPI1(`/movies/year/${year}`);
-    for (const movie of filteredData) {
-      try {
-        let goodString = movie.id.toString().padStart(7, "0");
-        const movieData = await fetchFromAPI2_Details(`tt${goodString}`);
-        movie.poster = movieData.poster_path;
-      } catch (error) {
-        console.error(
-          `Error fetching details for movie ID ${movie.id}:`,
-          error
-        );
+export const filterByYear =
+  (year: string, pageNr: number) => async (dispatch: Dispatch) => {
+    try {
+      const filteredData = await fetchFromAPI1(
+        `/movies/year/${year}?pageNumber=${pageNr}`
+      );
+      for (const movie of filteredData) {
+        try {
+          let goodString = movie.id.toString().padStart(7, "0");
+          const movieData = await fetchFromAPI2_Details(`tt${goodString}`);
+          //unfortunately have to handle poster logic here
+          movie.poster = movieData.poster_path
+            ? `https://image.tmdb.org/t/p/original/${movieData.poster_path}`
+            : "https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg";
+        } catch (error) {
+          console.error(
+            `Error fetching details for movie ID ${movie.id}:`,
+            error,
+            (movie.poster =
+              "https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg")
+          );
+        }
       }
+      dispatch({ type: FILTER_BY_YEAR, payload: filteredData });
+    } catch (error) {
+      dispatch({
+        type: FILTER_FAILED,
+        payload: `Error occurred: ${error.message}`,
+      });
     }
-    dispatch({ type: FILTER_BY_YEAR, payload: filteredData });
-  } catch (error) {
-    dispatch({
-      type: FILTER_FAILED,
-      payload: `Error occurred: ${error.message}`,
-    });
-  }
-};
+  };

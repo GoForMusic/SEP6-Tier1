@@ -1,53 +1,80 @@
 import React, { useEffect } from "react";
-// import SearchBar from "../elements/SearchBar/SearchBar";
-import FourColGrid from "../elements/FourColGrid/FourColGrid";
-import MovieThumb from "../elements/MovieThumb/MovieThumb";
-// import LoadMoreBtn from "../elements/LoadMoreBtn/LoadMoreBtn";
-// import Spinner from "../elements/Spinner/Spinner";
 import "./home.css";
 import type { RootState, AppDispatch } from "../../store";
 import { filterByYear } from "../../thunks/filterThunk"; // Make sure to import the correct path
 import { useDispatch, useSelector } from "react-redux";
+import {
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+  useMediaQuery,
+} from "@mui/material";
+import { Link } from "react-router-dom";
+import { styled } from "@mui/system";
+import { useTheme } from "@mui/material/styles";
+
+// PUT IN COMPONENTS:
+const ImgStyled = styled("img")({
+  width: "290px",
+  height: "435px",
+  objectFit: "cover",
+});
+
+const ImageListItemStyled = styled(ImageListItem)({
+  overflow: "hidden",
+});
 
 const Home = () => {
-  const movies = useSelector((state: RootState) => state.filterReducer.movies);
+  const theme = useTheme();
+  const matchDownSm = useMediaQuery(theme.breakpoints.down("sm")); // small screens
+  const matchDownMd = useMediaQuery(theme.breakpoints.down("md")); // medium screens
+  const matchDownLg = useMediaQuery(theme.breakpoints.down("lg")); // large screens
+
+  let cols;
+  if (matchDownSm) {
+    cols = 1; // 1 column for small screens
+  } else if (matchDownMd) {
+    cols = 2; // 2 columns for medium screens
+  } else if (matchDownLg) {
+    cols = 3; // 3 columns for large screens
+  } else {
+    cols = 5; // 5 columns for extra large screens
+  }
+
+  const imageListWidth = `calc((290px * ${cols}) + (12px * ${cols - 1}))`;
+
+  const movies = useSelector((state: RootState) => state.movieReducer.movies);
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(filterByYear("1998"));
+    dispatch(filterByYear("1998", 0));
   }, [dispatch]);
 
   return (
-    <div className="rmdb-home">
-      <div>{/* <SearchBar /> */}</div>
-
-      <div className="rmdb-home-grid">
-        <FourColGrid
-        // header={searchTerm ? "Search Result" : "Popular Movies"}
-        // loading={loading}
-        >
-          {movies.map((element, i) => (
-            <MovieThumb
-              key={i}
-              clickable={true}
-              image={
-                element.poster &&
-                element.poster !== "N/A" &&
-                element.poster !== "null"
-                  ? "https://image.tmdb.org/t/p/original" + element.poster
-                  : "https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg"
-              }
-              movieId={element.id}
-              movieName={element.original_title}
+    <ImageList
+      cols={cols}
+      rowHeight={435}
+      gap={12}
+      style={{
+        overflow: "hidden",
+        width: imageListWidth,
+        margin: "auto",
+      }}
+    >
+      {movies.map((movie) => (
+        <ImageListItemStyled key={movie.id} style={{ width: "290px" }}>
+          <Link to={`/movie/${movie.id}`}>
+            {movie.poster && (
+              <ImgStyled src={`${movie.poster}`} alt={movie.title} />
+            )}
+            <ImageListItemBar
+              title={movie.title}
+              subtitle={<span>{movie.id}</span>}
             />
-          ))}
-        </FourColGrid>
-        {/* {loading ? <Spinner /> : null}
-      {currentPage <= totalPages && !loading ? (
-        <LoadMoreBtn text="Load More" onClick={loadMoreMovies} />
-      ) : null} */}
-      </div>
-    </div>
+          </Link>
+        </ImageListItemStyled>
+      ))}
+    </ImageList>
   );
 };
 

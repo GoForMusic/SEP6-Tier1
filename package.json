@@ -3,12 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.20",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^1.9.7",
     "@testing-library/user-event": "^13.5.0",
     "@types/node": "^18.16.59",
     "@types/react": "^18.2.31",
     "@types/react-dom": "^18.2.14",
+    "add": "^2.0.6",
     "dotenv": "^16.3.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
@@ -36,7 +41,6 @@
     ]
   },
   "jest": {
-    
     "testEnvironment": "jsdom",
     "setupFilesAfterEnv": [
       "@testing-library/jest-dom/extend-expect"
