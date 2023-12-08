@@ -8,3 +8,7 @@ export const FILTER_BY_DIRECTOR = "FILTER_BY_DIRECTOR";
 export const FILTER_BY_YEAR = "FILTER_BY_YEAR";
 // by genre
 export const FILTER_BY_GENRE = "FILTER_BY_GENRE";
+
+//PAGINATION
+export const PREV_PAGE = 'PREV_PAGE';
+export const NEXT_PAGE = 'NEXT_PAGE';
