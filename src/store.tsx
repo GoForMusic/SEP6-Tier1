@@ -5,20 +5,20 @@ import {
   helloWorldReducer,
   loginUserReducer,
   registerUserReducer,
-  filterReducer,
   authReducer,
+  movieReducer
 } from "./reducers";
 
-const reducers = combineReducers({
+const rootReducer = combineReducers({
   auth: authReducer,
   helloWorldReducer,
   registerUserReducer,
   loginUserReducer,
-  filterReducer,
+  movieReducer,
 });
 
 const store = configureStore({
-  reducer: reducers,
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });
 
