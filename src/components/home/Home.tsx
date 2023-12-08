@@ -26,19 +26,23 @@ const ImageListItemStyled = styled(ImageListItem)({
 
 const Home = () => {
   const theme = useTheme();
-  const matchDownSm = useMediaQuery(theme.breakpoints.down("sm")); // small screens
-  const matchDownMd = useMediaQuery(theme.breakpoints.down("md")); // medium screens
-  const matchDownLg = useMediaQuery(theme.breakpoints.down("lg")); // large screens
+  const isXs = useMediaQuery(theme.breakpoints.only("xs")); // xs screens
+  const isSm = useMediaQuery(theme.breakpoints.only("sm")); // sm screens
+  const isMd = useMediaQuery(theme.breakpoints.only("md")); // md screens
+  const isLg = useMediaQuery(theme.breakpoints.only("lg")); // lg screens
+  const isXl = useMediaQuery(theme.breakpoints.up("xl")); // xlg screens > up
 
   let cols;
-  if (matchDownSm) {
-    cols = 1; // 1 column for small screens
-  } else if (matchDownMd) {
-    cols = 2; // 2 columns for medium screens
-  } else if (matchDownLg) {
-    cols = 3; // 3 columns for large screens
-  } else {
-    cols = 5; // 5 columns for extra large screens
+  if (isXs) {
+    cols = 1;
+  } else if (isSm) {
+    cols = 2;
+  } else if (isMd) {
+    cols = 3;
+  } else if (isLg) {
+    cols = 4;
+  } else if (isXl) {
+    cols = 5;
   }
 
   const imageListWidth = `calc((290px * ${cols}) + (12px * ${cols - 1}))`;
