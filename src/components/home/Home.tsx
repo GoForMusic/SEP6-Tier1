@@ -12,7 +12,6 @@ import {
 import { Link } from "react-router-dom";
 import { styled } from "@mui/system";
 import { useTheme } from "@mui/material/styles";
-import Layout from "../Layout";
 
 // PUT IN COMPONENTS:
 const ImgStyled = styled("img")({
