@@ -5,7 +5,8 @@ import {
   FILTER_BY_GENRE,
   FILTER_BY_RATE,
   FILTER_BY_YEAR,
-  FILTER_FAILED,
+  REQ_FAILED,
+  SEARCH_MOVIES_RESPONSE,
 } from "../constants/movies";
 import fetchJsonp from "../HelperFunctions/fetchJsonp";
 import { MovieData } from "../Interfaces/MovieData";
@@ -51,7 +52,7 @@ export const filterByGenre = (genre: string) => async (dispatch: Dispatch) => {
     dispatch({ type: FILTER_BY_GENRE, payload: filteredData });
   } catch (error) {
     dispatch({
-      type: FILTER_FAILED,
+      type: REQ_FAILED,
       payload: `Error occurred: ${error.message}`,
     });
   }
@@ -67,7 +68,7 @@ export const filterByRate = (rate: string) => async (dispatch: Dispatch) => {
     dispatch({ type: FILTER_BY_RATE, payload: filteredData });
   } catch (error) {
     dispatch({
-      type: FILTER_FAILED,
+      type: REQ_FAILED,
       payload: `Error occurred: ${error.message}`,
     });
   }
@@ -84,7 +85,7 @@ export const filterByDirector = //// SEARH BY DIRECTOR NOT FILTER
       dispatch({ type: FILTER_BY_DIRECTOR, payload: filteredData });
     } catch (error) {
       dispatch({
-        type: FILTER_FAILED,
+        type: REQ_FAILED,
         payload: `Error occurred: ${error.message}`,
       });
     }
@@ -97,7 +98,7 @@ export const filterByDirector = //// SEARH BY DIRECTOR NOT FILTER
 export const filterByYear =
   (year: string, pageNr: number) => async (dispatch: Dispatch) => {
     try {
-      dispatch({type: FETCH_MOVIES_REQ});
+      dispatch({ type: FETCH_MOVIES_REQ });
       const filteredData = await fetchFromAPI1(
         `/movies/year/${year}?pageNumber=${pageNr}`
       );
@@ -105,10 +106,10 @@ export const filterByYear =
         try {
           let goodString = movie.id.toString().padStart(7, "0");
           const movieData = await fetchFromAPI2_Details(`tt${goodString}`);
-          //unfortunately have to handle poster logic here
           movie.poster = movieData.poster_path
             ? `https://image.tmdb.org/t/p/original/${movieData.poster_path}`
             : "https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg";
+          movie.genres = movieData.genres.map((genre) => genre.name);
         } catch (error) {
           console.error(
             `Error fetching details for movie ID ${movie.id}:`,
@@ -121,8 +122,42 @@ export const filterByYear =
       dispatch({ type: FILTER_BY_YEAR, payload: filteredData });
     } catch (error) {
       dispatch({
-        type: FILTER_FAILED,
+        type: REQ_FAILED,
         payload: `Error occurred: ${error.message}`,
       });
     }
   };
+
+//##########################################################################################
+//                                       SEARCH
+//##########################################################################################
+
+export const searchByTitle = (title: string) => async (dispatch: Dispatch) => {
+  try {
+    dispatch({ type: FETCH_MOVIES_REQ });
+    const queryData = await fetchFromAPI1(`/movies/search/${title}`);
+    for (const movie of queryData) {
+      try {
+        let goodString = movie.id.toString().padStart(7, "0");
+        const movieData = await fetchFromAPI2_Details(`tt${goodString}`);
+        movie.poster = movieData.poster_path
+          ? `https://image.tmdb.org/t/p/original/${movieData.poster_path}`
+          : "https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg";
+        movie.genres = movieData.genres.map((genre) => genre.name);
+      } catch (error) {
+        console.error(
+          `Error fetching details for movie ID ${movie.id}:`,
+          error,
+          (movie.poster =
+            "https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg")
+        );
+      }
+    }
+    dispatch({ type: SEARCH_MOVIES_RESPONSE, payload: queryData });
+  } catch (error) {
+    dispatch({
+      type: REQ_FAILED,
+      payload: `Error occurred: ${error.message}`,
+    });
+  }
+};

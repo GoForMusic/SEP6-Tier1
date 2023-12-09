@@ -1,5 +1,5 @@
 export const FETCH_MOVIES_REQ = "FETCH_MOVIES_REQ";
-export const FILTER_FAILED = "FILTER_FAILED";
+export const REQ_FAILED = "REQ_FAILED";
 // by rate
 export const FILTER_BY_RATE = "FILTER_BY_RATE";
 // by director
@@ -12,3 +12,6 @@ export const FILTER_BY_GENRE = "FILTER_BY_GENRE";
 //PAGINATION
 export const PREV_PAGE = 'PREV_PAGE';
 export const NEXT_PAGE = 'NEXT_PAGE';
+
+export const SEARCH_MOVIES_RESPONSE = "SEARCH_MOVIES_RESPONSE";
+
