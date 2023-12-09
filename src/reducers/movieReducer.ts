@@ -2,28 +2,23 @@ import {
     FILTER_BY_YEAR,
     FILTER_BY_DIRECTOR,
     FILTER_BY_RATE,
-    FILTER_FAILED,
+    REQ_FAILED,
     FETCH_MOVIES_REQ,
-    FILTER_BY_GENRE,
     PREV_PAGE, 
-    NEXT_PAGE
+    NEXT_PAGE,
+    SEARCH_MOVIES_RESPONSE
   
   } from "../constants/movies";
   
   const initialState = {
     movies: [],
     loading: false, // for spinner, when fetching movies
-    page: 1 // for pagination to track what is the current page.
+    page: 1, // for pagination to track what is the current page.
+    searchTerm: "",
   };
   
   const movieReducer = (state = initialState, action: any) => {
     switch (action.type) {
-
-      // case PAGINATION:
-      //   return {
-      //     ...state,
-      //     page: action.payload
-      //   };
 
       case FETCH_MOVIES_REQ: // LOADER AND ETC
         return {
@@ -31,6 +26,13 @@ import {
           movies: [],
           loading: true,
         };
+      case SEARCH_MOVIES_RESPONSE:
+         return {
+        ...state,
+        movies: action.payload,
+        loading: false,
+        searchTerm: ""
+      };
       case PREV_PAGE:
       return {
         ...state,
@@ -65,7 +67,7 @@ import {
           error: null,
         };
   
-        case FILTER_FAILED:
+        case REQ_FAILED:
         return {
           ...state,
           loading: false,
