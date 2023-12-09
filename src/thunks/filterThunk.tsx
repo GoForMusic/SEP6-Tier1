@@ -8,39 +8,7 @@ import {
   REQ_FAILED,
   SEARCH_MOVIES_RESPONSE,
 } from "../constants/movies";
-import fetchJsonp from "../HelperFunctions/fetchJsonp";
-import { MovieData } from "../Interfaces/MovieData";
-
-///api url wrapped within constant - bcs it is the same for all req and used in many places.
-
-const API_BASE_URL = "https://tier2.azurewebsites.net";
-const TMDB_BASE_URL = "https://api.themoviedb.org";
-const TMDB_apiKey = process.env.REACT_APP_TMDB_API_KEY;
-
-//##########################################################################################
-//ABSTRACT LOGIC FOR CODE REUSABILITY: (this piece is always used with each request,
-//        since we have many same kind of requests, there was a need to create such function
-//          so that the code would be reused. It also makes it more simple to read)
-
-async function fetchFromAPI1(endpoint: string, method: string = "GET") {
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    mode: "cors",
-    method: method,
-    headers: { "Content-Type": "application/json" },
-  });
-  return response.json();
-}
-
-async function fetchFromAPI2_Details(movieId: string): Promise<MovieData> {
-  const url = `${TMDB_BASE_URL}/3/movie/${movieId}?api_key=${TMDB_apiKey}`;
-  try {
-    const response = await fetchJsonp(url, "callbackFunctionName");
-    return response as MovieData; // Type assertion to MovieData
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    throw error;
-  }
-}
+import { fetchFromAzure, fetchFromTMDB_api } from "../HelperFunctions/fetchApi";
 
 //##########################################################################################
 //                                       GENRE
@@ -48,7 +16,7 @@ async function fetchFromAPI2_Details(movieId: string): Promise<MovieData> {
 
 export const filterByGenre = (genre: string) => async (dispatch: Dispatch) => {
   try {
-    const filteredData = await fetchFromAPI1(`/filterByGenre`, "POST"); // Assuming POST request doesn't need body here
+    const filteredData = await fetchFromAzure(`/filterByGenre`, "POST"); // Assuming POST request doesn't need body here
     dispatch({ type: FILTER_BY_GENRE, payload: filteredData });
   } catch (error) {
     dispatch({
@@ -64,7 +32,7 @@ export const filterByGenre = (genre: string) => async (dispatch: Dispatch) => {
 
 export const filterByRate = (rate: string) => async (dispatch: Dispatch) => {
   try {
-    const filteredData = await fetchFromAPI1(`/movies/rating/${rate}`);
+    const filteredData = await fetchFromAzure(`/movies/rating/${rate}`);
     dispatch({ type: FILTER_BY_RATE, payload: filteredData });
   } catch (error) {
     dispatch({
@@ -81,7 +49,7 @@ export const filterByRate = (rate: string) => async (dispatch: Dispatch) => {
 export const filterByDirector = //// SEARH BY DIRECTOR NOT FILTER
   (name: string) => async (dispatch: Dispatch) => {
     try {
-      const filteredData = await fetchFromAPI1(`/directors/search/${name}`);
+      const filteredData = await fetchFromAzure(`/directors/search/${name}`);
       dispatch({ type: FILTER_BY_DIRECTOR, payload: filteredData });
     } catch (error) {
       dispatch({
@@ -99,32 +67,12 @@ export const filterByYear =
   (year: string, pageNr: number) => async (dispatch: Dispatch) => {
     try {
       dispatch({ type: FETCH_MOVIES_REQ });
-      const filteredData = await fetchFromAPI1(
-        `/movies/year/${year}?pageNumber=${pageNr}`
-      );
-      for (const movie of filteredData) {
-        try {
-          let goodString = movie.id.toString().padStart(7, "0");
-          const movieData = await fetchFromAPI2_Details(`tt${goodString}`);
-          movie.poster = movieData.poster_path
-            ? `https://image.tmdb.org/t/p/original/${movieData.poster_path}`
-            : "https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg";
-          movie.genres = movieData.genres.map((genre) => genre.name);
-        } catch (error) {
-          console.error(
-            `Error fetching details for movie ID ${movie.id}:`,
-            error,
-            (movie.poster =
-              "https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg")
-          );
-        }
-      }
+      const endpoint = `/movies/year/${year}?pageNumber=${pageNr}`;
+      const filteredData = await fetchFromAzure(endpoint);
+      await Promise.all(filteredData.map(fetchMovieDetails));
       dispatch({ type: FILTER_BY_YEAR, payload: filteredData });
     } catch (error) {
-      dispatch({
-        type: REQ_FAILED,
-        payload: `Error occurred: ${error.message}`,
-      });
+      dispatchError(dispatch, error);
     }
   };
 
@@ -135,29 +83,40 @@ export const filterByYear =
 export const searchByTitle = (title: string) => async (dispatch: Dispatch) => {
   try {
     dispatch({ type: FETCH_MOVIES_REQ });
-    const queryData = await fetchFromAPI1(`/movies/search/${title}`);
-    for (const movie of queryData) {
-      try {
-        let goodString = movie.id.toString().padStart(7, "0");
-        const movieData = await fetchFromAPI2_Details(`tt${goodString}`);
-        movie.poster = movieData.poster_path
-          ? `https://image.tmdb.org/t/p/original/${movieData.poster_path}`
-          : "https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg";
-        movie.genres = movieData.genres.map((genre) => genre.name);
-      } catch (error) {
-        console.error(
-          `Error fetching details for movie ID ${movie.id}:`,
-          error,
-          (movie.poster =
-            "https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg")
-        );
-      }
-    }
+    const queryData = await fetchFromAzure(`/movies/search/${title}`);
+
+    // Promise.all - handle multiple asynchronous calls efficiently
+    await Promise.all(queryData.map(fetchMovieDetails));
+
     dispatch({ type: SEARCH_MOVIES_RESPONSE, payload: queryData });
   } catch (error) {
-    dispatch({
-      type: REQ_FAILED,
-      payload: `Error occurred: ${error.message}`,
-    });
+    dispatchError(dispatch, error);
   }
+};
+
+//##########################################################################################
+//          Some abstract functions // I want to keep them here for now - Marty
+//##########################################################################################
+
+const fetchMovieDetails = async (movie) => {
+  let goodString = movie.id.toString().padStart(7, "0");
+  try {
+    const movieData = await fetchFromTMDB_api(`tt${goodString}`);
+    movie.poster = movieData.poster_path
+      ? `https://image.tmdb.org/t/p/original/${movieData.poster_path}`
+      : "https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg";
+    movie.genres = movieData.genres.map((genre) => genre.name);
+  } catch (error) {
+    console.error(`Error fetching details for movie ID ${movie.id}:`, error);
+    movie.poster =
+      "https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg";
+  }
+};
+
+// Abstrct error dispatch func
+const dispatchError = (dispatch, error) => {
+  dispatch({
+    type: REQ_FAILED,
+    payload: `Error occurred: ${error.message}`,
+  });
 };
