@@ -1,6 +1,8 @@
 import {
   FETCH_COMMENTS_SUCCESS,
   FETCH_COMMENTS_REQUEST,
+  POST_COMMENT_SUCCESS,
+  POST_COMMENT_REQUEST,
 } from "../constants/comments";
 
 const initialState = {

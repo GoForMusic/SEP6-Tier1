@@ -11,6 +11,7 @@ const CommentForm = ({ movieId }) => {
   const [newComment, setNewComment] = useState<string>("");
   const dispatch: AppDispatch = useDispatch();
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const userId = useSelector((state: RootState) => state.auth.userId);
   const existingComments = useSelector(
     (state: RootState) => state.commentReducer.comments
   );
@@ -23,9 +24,9 @@ const CommentForm = ({ movieId }) => {
   }, [dispatch, movieId]);
 
   const handleAddComment = () => {
-    //const userId = ()
+   
     if (newComment.trim() !== "") {
-      // dispatch(addComment(newComment, movieId))
+       dispatch(addComment(newComment, movieId, userId))
       setNewComment("");
     }
   }; 
