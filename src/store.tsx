@@ -6,7 +6,8 @@ import {
   loginUserReducer,
   registerUserReducer,
   authReducer,
-  movieReducer
+  movieReducer,
+  commentReducer,
 } from "./reducers";
 
 const rootReducer = combineReducers({
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   registerUserReducer,
   loginUserReducer,
   movieReducer,
+  commentReducer,
 });
 
 const store = configureStore({

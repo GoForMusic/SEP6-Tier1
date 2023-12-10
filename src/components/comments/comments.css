@@ -1,0 +1,20 @@
+/* comment.css */
+
+.comment-frame {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    max-width: 600px;
+    border-radius: 8px;
+  }
+  
+  .comment-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .comment-list-item {
+    border-bottom: 1px solid #eee;
+    padding: 8px 0;
+  }
+  
