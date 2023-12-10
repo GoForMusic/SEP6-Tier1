@@ -1,3 +1,9 @@
+import { Dispatch } from "redux";
+import {
+  FETCH_COMMENTS_REQUEST,
+  FETCH_COMMENTS_SUCCESS
+} from '../constants/comments'
+
 
 export const addComment = (movieId: string, comment: string, userEmail: string) => async () => {
 
@@ -31,22 +37,29 @@ export const addComment = (movieId: string, comment: string, userEmail: string) 
 
 }
 
-export const fetchComments = (movieId: string) =>  async () => {
+export const fetchComments = (movieId: string) =>  async (dispatch: Dispatch) => {
     try {
-      const response = await fetch(`https://tier2.azurewebsites.net/comments${movieId}`, {
+      dispatch({type: FETCH_COMMENTS_REQUEST})
+      const response = await fetch(`https://tier2.azurewebsites.net/Comment/movie/${movieId}/comments`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
-  
+      
+      
+
       if (!response.ok) {
         // Handle error if needed
         console.error('Error fetching comments:', response.statusText);
         return [];
       }
-  
+      console.log("heeeeeeeeeereeeeeeeee");
+      
       const comments = await response.json();
+      dispatch({type: FETCH_COMMENTS_SUCCESS, payload: comments});
+      console.log("comments:", comments);
+      
       return comments;
     } catch (error) {
       // Handle other errors if needed
