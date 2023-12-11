@@ -7,6 +7,7 @@ import RegisterUserScreen from "./screens/registerUserScreen";
 import LoginScreen from "./screens/loginUserScreen";
 import HomeScreen from "../src/components/home/Home";
 import Details from "./components/details/Details";
+import Footer from "./components/footer/footer";
 
 const App = () => {
   return (
@@ -21,6 +22,8 @@ const App = () => {
             <Route path="/" element={<HomeScreen />} />
           </Routes>
         </Container>
+        <Footer />
+
       </main>
     </Router>
   );
