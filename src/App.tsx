@@ -8,18 +8,22 @@ import HomeScreen from "../src/components/home/Home";
 import Details from "./components/details/Details";
 import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
+import Footer from "./components/footer/footer";
 
 const App = ({ router: RouterComponent }) => {
   return (
-    <RouterComponent>
-      <Routes>
-        <Route path="/helloworld" element={<HelloWorldScreen />} />
-        <Route path="/account" element={<RegisterUserScreen />} />
-        <Route path="/account/login" element={<LoginScreen />} />
-        <Route path="/movie/:movieId" element={<Details />} />
-        <Route path="/" element={<HomeScreen />} />
-      </Routes>
-    </RouterComponent>
+    <>
+      <RouterComponent>
+        <Routes>
+          <Route path="/helloworld" element={<HelloWorldScreen />} />
+          <Route path="/account" element={<RegisterUserScreen />} />
+          <Route path="/account/login" element={<LoginScreen />} />
+          <Route path="/movie/:movieId" element={<Details />} />
+          <Route path="/" element={<HomeScreen />} />
+        </Routes>
+      </RouterComponent>
+      <Footer />
+    </>
   );
 };
 
