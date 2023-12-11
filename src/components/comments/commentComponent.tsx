@@ -17,9 +17,7 @@ const CommentForm = ({ movieId }) => {
   );
   useEffect(() => {
 
-   
-    
-
+  
     dispatch(fetchComments(movieId));
   }, [dispatch, movieId]);
 
