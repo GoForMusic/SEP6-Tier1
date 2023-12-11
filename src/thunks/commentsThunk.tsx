@@ -5,17 +5,17 @@ import {
 } from '../constants/comments'
 
 
-export const addComment = (movieId: string, comment: string, userEmail: string) => async () => {
+export const addComment = (movieId: string, comment: string, userId: string) => async () => {
 
     try {
 
         const requestBody = {
             movieId: movieId,
             comment: comment,
-            userEmail: userEmail,
+            userId: userId,
           };
 
-        const filteredData = await fetch(`https://tier2.azurewebsites.net/comments${movieId}`, {
+        const filteredData = await fetch(`https://tier2.azurewebsites.net/comments${movieId}/${userId}`, {
             mode: 'cors',
             method: 'POST',
             headers: { "Content-Type": "application/json" },
