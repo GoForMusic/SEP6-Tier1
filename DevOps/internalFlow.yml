@@ -30,10 +30,19 @@ stages:
               checkLatest: true
 
           - script: |
-              npm install -g yarn
-              yarn install
+              npm install
             displayName: "Install Dependencies"
 
           - script: |
-              yarn build
+              npm run build
+
             displayName: "Build React App"
+
+          # - script: |
+          #     npm test --coverage
+          #   displayName: "Run Tests"
+
+          # - task: PublishCodeCoverageResults@1
+          #   inputs:
+          #     codeCoverageTool: "Cobertura"
+          #     summaryFileLocation: "$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml"
