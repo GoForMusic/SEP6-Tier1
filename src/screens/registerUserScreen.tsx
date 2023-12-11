@@ -5,9 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { RootState } from "../store";
 import { AppDispatch } from "../store";
 import { setError, registerAccount } from "../thunks/registerAccountThunk";
-import  FormContainer  from '../components/formContainer'
-
-
+import FormContainer from "../components/formContainer";
 
 const RegisterScreen = () => {
   const [username, setUsername] = useState("");
@@ -19,11 +17,16 @@ const RegisterScreen = () => {
   const registerState = useSelector(
     (state: RootState) => state.registerUserReducer
   );
-  const error = useSelector((state: RootState) => state.registerUserReducer.error);
+  const error = useSelector(
+    (state: RootState) => state.registerUserReducer.error
+  );
   const isRegistered = registerState?.isRegistered;
   const userInfo: any = registerState?.userData;
 
   const interpretErrorMessage = (error: any) => {
+    if (error === `Unexpected token 'U', "Username i"... is not valid JSON`) {
+      error = "Username exists in the database";
+    }
     return error;
   };
 
@@ -56,7 +59,6 @@ const RegisterScreen = () => {
     // dispatch reg req to reducer? if validations pass
     dispatch(registerAccount(username, password));
     console.log();
-    
   };
 
   return (
@@ -66,8 +68,7 @@ const RegisterScreen = () => {
       {error && (
         <div style={{ color: "red" }}> {interpretErrorMessage(error)} </div>
       )}
-      <br>
-      </br>
+      <br></br>
 
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="username" className="my-3">
@@ -100,7 +101,12 @@ const RegisterScreen = () => {
           />
         </Form.Group>
 
-        <Button onSubmit={submitHandler} variant="primary" type="submit" className="my-3">
+        <Button
+          onSubmit={submitHandler}
+          variant="primary"
+          type="submit"
+          className="my-3"
+        >
           sign up!
         </Button>
       </Form>
