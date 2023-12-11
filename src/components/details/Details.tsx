@@ -7,6 +7,7 @@ import {
     ImgStyled,
   } from "../../components/home/Styling/home_style";
   import CommentComponent from '../comments/commentComponent'
+  import { FacebookShareButton, WhatsappShareButton } from "react-share";
 
 
 import "./details.css"; 
@@ -15,6 +16,7 @@ const MovieDetails = () => {
   const { movieId } = useParams();
   const [movieDetails, setMovieDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   const movies = useSelector((state: RootState) => state.movieReducer.movies);
 
@@ -53,18 +55,52 @@ const MovieDetails = () => {
     return <p>Movie not found</p>;
   }
 
+  function copy() {
+    const el = document.createElement("input");
+    el.value = window.location.href;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+    setCopied(true);
+  }
+
+  const shareUrl = window.location.href;
+
   return (
     <div className="movie-details-container">
       <h1 className="movie-details-title">{movieDetails.title}</h1>
-      <p className="movie-details-genres">Genres: {movieDetails.genres.join(", ")}</p>
-      <p className="movie-details-overview">Overview: {movieDetails.overview}</p>
-      <p className="movie-details-year">Year: {movieDetails.year}</p>
-      <p className="movie-details-language">Language: {movieDetails.language}</p>
-      <p>IDMB Vote: {movieDetails.vote}</p>
+      <p className="movie-details-genres">
+        <strong>Genres:</strong> {movieDetails.genres.join(", ")}
+      </p>
+      <p className="movie-details-overview">
+        <strong>Overview:</strong> {movieDetails.overview}
+      </p>
+      <p className="movie-details-year">
+        <strong>Year:</strong> {movieDetails.year}
+      </p>
+      <p className="movie-details-language">
+        <strong>Language:</strong> {movieDetails.language}
+      </p>
+      <p>
+        <strong>IDMB Vote:</strong> {movieDetails.vote}
+      </p>
       <div>
         <ImgStyled src={currentMovie.poster} alt={currentMovie.title} />
       </div>
-      <CommentComponent movieId={movieId}/>
+    
+      <CommentComponent movieId={movieId} />
+      <button onClick={copy}>{!copied ? "Copy link" : "Copied!"}</button>
+      <div>
+        <FacebookShareButton url={shareUrl} title={movieDetails.title}>
+          Share on Facebook
+        </FacebookShareButton>
+        <br/>
+        <WhatsappShareButton url={shareUrl} title={movieDetails.title}>
+          Share on Whatsapp
+        </WhatsappShareButton>
+        {/* Add more share buttons as needed */}
+      </div>
     </div>
   );
 };
