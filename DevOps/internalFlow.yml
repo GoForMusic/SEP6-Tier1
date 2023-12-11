@@ -34,7 +34,7 @@ stages:
             displayName: "Install Dependencies"
 
           - script: |
-              npm build
+              npm run build
 
             displayName: "Build React App"
 
