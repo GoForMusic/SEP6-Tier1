@@ -24,17 +24,16 @@ const CommentForm = ({ movieId }) => {
   }, [dispatch, movieId]);
 
   const handleAddComment = () => {
-   
-    if (newComment.trim() !== "") {
-       dispatch(addComment(newComment, movieId, userId))
+    if (isLoggedIn && newComment.trim() !== "") {
+      dispatch(addComment(newComment, movieId, userId));
       setNewComment("");
     }
-  }; 
+  };
 
   return (
     <div>
       <div className="comment-frame">
-        <h2>Existing Comments</h2>
+        <h2>Comments</h2>
         {existingComments === undefined ? (
           <p>Loading comments...</p>
         ) : Array.isArray(existingComments) && existingComments.length === 0 ? (
@@ -42,9 +41,15 @@ const CommentForm = ({ movieId }) => {
         ) : (
           <ul className="comment-list">
             {Array.isArray(existingComments) &&
-              existingComments.map((comment, index) => (
+            [...existingComments]
+            .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+            .map((comment, index) => (
                 <li className="comment-list-item" key={index}>
-                  {comment.text}
+                 Comment:  {comment.body}
+                 <br/>
+                 date posted: {comment.date_posted} 
+                 <br/>
+                 author: {comment.writtenBy.userName}
                 </li>
               ))}
           </ul>
