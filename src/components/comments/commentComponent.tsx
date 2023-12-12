@@ -5,6 +5,9 @@ import { AppDispatch } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { addComment, fetchComments } from "../../thunks/commentsThunk";
 import './comments.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faHeart } from "@fortawesome/free-solid-svg-icons"
+
 
 
 const CommentForm = ({ movieId }) => {
@@ -32,9 +35,12 @@ const CommentForm = ({ movieId }) => {
     }
   };
 
-  const handleLikeComment = async (commentId) => {
+  // const handleLikeComment = async (commentId) => {
+  //   await dispatch(addLike( commentId, movieId, userId));
+  //   dispatch(fetchLikes(commentId, movieId));
 
-  } 
+
+  // } 
 
 
 
@@ -44,7 +50,8 @@ const CommentForm = ({ movieId }) => {
         <h2 className="comments-header">Comments</h2>
         {existingComments === undefined ? (
           <p>Loading comments...</p>
-        ) : Array.isArray(existingComments) && existingComments.length === 0 ? (
+        ) : Array.isArray(existingComments) &&
+          existingComments.length === 0 ? (
           <p>No comments yet.</p>
         ) : (
           <ul className="comment-list">
@@ -60,11 +67,11 @@ const CommentForm = ({ movieId }) => {
                       Author: {comment.writtenBy.userName}
                     </span>
                     <button
-                      className="like-comment-button"
-                      onClick={() => handleLikeComment(comment.id)}
-                    >
-                      Like
-                    </button>
+      className="like-comment-button"
+  // onClick={() => handleLikeComment(comment.id)}
+>
+  <i className="fas fa-heart"></i> 
+</button>
                     {/* Display like count if needed */}
                     <span className="like-count">Likes: {comment.likes}</span>
                   </div>
