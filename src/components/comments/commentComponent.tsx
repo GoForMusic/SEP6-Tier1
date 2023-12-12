@@ -10,8 +10,10 @@ import './comments.css';
 const CommentForm = ({ movieId }) => {
   const [newComment, setNewComment] = useState<string>("");
   const dispatch: AppDispatch = useDispatch();
-  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
-  const userId = useSelector((state: RootState) => state.auth.userId);
+  const isLoggedIn = useSelector(
+    (state: RootState) => state.loginUserReducer.isLoggedIn
+  );
+  const userId = useSelector((state: RootState) => state.loginUserReducer.userId);
   const existingComments = useSelector(
     (state: RootState) => state.commentReducer.comments
   );
@@ -53,24 +55,29 @@ const CommentForm = ({ movieId }) => {
           </ul>
         )}
       </div>
+ {/* Debugging: Display isLoggedIn value */}
+ <div>isLoggedIn: {isLoggedIn ? "true" : "false"}</div>
 
-      {isLoggedIn && (
-        <div>
-          <h2>Leave a Comment</h2>
-          {/* Input field for new comment */}
-          <textarea
-            rows={4}
-            cols={50}
-            placeholder="Type your comment..."
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-          />
-          {/* Button to add a new comment */}
-          <button onClick={handleAddComment}>Add Comment</button>
-        </div>
-      )}
+{isLoggedIn && (
+  <div>
+    {/* Debugging: Display "Add Comment" section */}
+    <div style={{ border: "1px solid red" }}>
+      <h2>Leave a Comment</h2>
+      {/* Input field for new comment */}
+      <textarea
+        rows={4}
+        cols={50}
+        placeholder="Type your comment..."
+        value={newComment}
+        onChange={(e) => setNewComment(e.target.value)}
+      />
+      {/* Button to add a new comment */}
+      <button onClick={handleAddComment}>Add Comment</button>
     </div>
-  );
+  </div>
+)}
+</div>
+);
 };
 
 

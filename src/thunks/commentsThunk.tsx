@@ -1,21 +1,31 @@
 import { Dispatch } from "redux";
 import {
   FETCH_COMMENTS_REQUEST,
-  FETCH_COMMENTS_SUCCESS
+  FETCH_COMMENTS_SUCCESS,
+  POST_COMMENT_SUCCESS,
+  POST_COMMENT_REQUEST,
+  
 } from '../constants/comments'
 
 
-export const addComment = (movieId: string, comment: string, userId: string) => async () => {
+export const addComment = (movieId: string, comment: string, userId: string) => async (dispatch: Dispatch) => {
 
     try {
+      dispatch({type: POST_COMMENT_REQUEST})
 
         const requestBody = {
-            movieId: movieId,
+                
+            movie_id: movieId,
             comment: comment,
-            userId: userId,
+            account_id: userId,
           };
 
-        const filteredData = await fetch(`https://tier2.azurewebsites.net/comments${movieId}/${userId}`, {
+          console.log("movieId" , movieId );
+          console.log("userID", userId);
+          console.log("comment", comment);
+          
+
+        const filteredData = await fetch(`https://tier2.azurewebsites.net/Comment`, {
             mode: 'cors',
             method: 'POST',
             headers: { "Content-Type": "application/json" },
@@ -23,14 +33,22 @@ export const addComment = (movieId: string, comment: string, userId: string) => 
         });
 
         if (!filteredData.ok) {
-            // Handle error if needed
+
+          // console.log("movieId" , movieId );
+          // console.log("userID", userId);
+          // console.log("comment", comment);
+          
+          
+          
+           
             console.error('Error adding comment:', filteredData.statusText);
           } else {
-            // Handle success if needed
+         
+            dispatch({type: POST_COMMENT_SUCCESS})
             console.log('Comment added successfully!');
           }
         } catch (error) {
-          // Handle other errors if needed
+     
           console.error('Error:', error);
 
     } 

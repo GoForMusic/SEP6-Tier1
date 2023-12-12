@@ -24,6 +24,18 @@ const commentReducer = (state = initialState, action: any) => {
         comments: action.payload,
         loading: false,
       };
+    case POST_COMMENT_REQUEST:
+      return {
+        ...state,
+        comments: action.payload,
+        loading: false,
+      };
+    case POST_COMMENT_SUCCESS:
+      return {
+        ...state,
+        comments: [],
+        loading: false,
+      };
     default:
       return state;
   }
