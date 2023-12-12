@@ -8,7 +8,8 @@ import {
   
   const initialState = {
     isLoggedIn: JSON.parse(localStorage.getItem("logged")) || false, // DONT CHANGE!
-    userId: localStorage.getItem('username') || null, // DONT CHANGE!
+    userId: localStorage.getItem("userId") || null, // DONT CHANGE!
+    username: localStorage.getItem("username") || null, // DONT CHANGE!
     error: null,
   };
   
@@ -17,13 +18,13 @@ import {
       case USER_LOGIN_REQ:
         return { ...state };
       case USER_LOGIN_SUCCESS:
-        return { ...state, isLoggedIn: true, userId: action.payload}; // DONT CHANGE! because the above variables is just for persistance upon refresh
+        return { ...state, isLoggedIn: true, userId: action.payload.userId, username: action.payload.username}; // DONT CHANGE! because the above variables is just for persistance upon refresh
       case USER_LOGIN_FAIL:
         return { ...state, error: action.payload };
       case USER_LOGOUT_FAIL:
         return { ...state, error: action.payload };
       case USER_LOGOUT:
-        return { ...initialState, isLoggedIn: false,  userId: null}; // DONT CHANGE! leave these because the above variables is just for persistance upon refresh
+        return { ...initialState, isLoggedIn: false,  userId: null, username: null}; // DONT CHANGE! leave these because the above variables is just for persistance upon refresh
       default:
         return state;
     }
