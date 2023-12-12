@@ -7,6 +7,7 @@ import { ImgStyled } from "../../components/home/Styling/home_style";
 import CommentComponent from "../comments/commentComponent";
 import { FacebookShareButton, WhatsappShareButton } from "react-share";
 import "./details.css";
+import "./shareButtons.css"
 
 const Details = () => {
   const { movieId } = useParams();
@@ -82,16 +83,22 @@ const Details = () => {
         />
       </div>
       <CommentComponent movieId={movieId} />
-      <button onClick={copy}>{!copied ? "Copy link" : "Copied!"}</button>
-      <div>
-        <FacebookShareButton url={shareUrl} title={movieDetails.title}>
-          Share on Facebook
-        </FacebookShareButton>
-        <br />
-        <WhatsappShareButton url={shareUrl} title={movieDetails.title}>
-          Share on Whatsapp
-        </WhatsappShareButton>
-        {/* Add more share buttons as needed */}
+      <div className="share-buttons-container">
+        <button className="copy-link-button" onClick={copy}>
+          {!copied ? "Copy link" : "Copied!"}
+        </button>
+        <div>
+        <FacebookShareButton url={shareUrl} title={movieDetails.title} className="share-button">
+  <i className="fab fa-facebook"></i> Facebook
+</FacebookShareButton>
+<br />
+<WhatsappShareButton url={shareUrl} title={movieDetails.title} className="share-button">
+  <i className="fab fa-whatsapp"></i> Whatsapp
+</WhatsappShareButton>
+
+          {/* Add more share buttons as needed */}
+        </div>
+      
       </div>
     </div>
   );

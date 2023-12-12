@@ -23,17 +23,25 @@ const CommentForm = ({ movieId }) => {
     dispatch(fetchComments(movieId));
   }, [dispatch, movieId]);
 
-  const handleAddComment = () => {
+  const handleAddComment = async () => {
     if (isLoggedIn && newComment.trim() !== "") {
-      dispatch(addComment(newComment, movieId, userId));
+      await dispatch(addComment(newComment, movieId, userId));
+      dispatch(fetchComments(movieId))
       setNewComment("");
+      
     }
   };
+
+  const handleLikeComment = async (commentId) => {
+
+  } 
+
+
 
   return (
     <div>
       <div className="comment-frame">
-        <h2>Comments</h2>
+        <h2 className="comments-header">Comments</h2>
         {existingComments === undefined ? (
           <p>Loading comments...</p>
         ) : Array.isArray(existingComments) && existingComments.length === 0 ? (
@@ -41,44 +49,49 @@ const CommentForm = ({ movieId }) => {
         ) : (
           <ul className="comment-list">
             {Array.isArray(existingComments) &&
-            [...existingComments]
-            .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-            .map((comment, index) => (
+              existingComments.map((comment, index) => (
                 <li className="comment-list-item" key={index}>
-                 Comment:  {comment.body}
-                 <br/>
-                 date posted: {comment.date_posted} 
-                 <br/>
-                 author: {comment.writtenBy.userName}
+                  <div className="comment-body">{comment.body}</div>
+                  <div className="comment-meta">
+                    <span className="comment-date">
+                      Date posted: {comment.date_posted}
+                    </span>
+                    <span className="comment-author">
+                      Author: {comment.writtenBy.userName}
+                    </span>
+                    <button
+                      className="like-comment-button"
+                      onClick={() => handleLikeComment(comment.id)}
+                    >
+                      Like
+                    </button>
+                    {/* Display like count if needed */}
+                    <span className="like-count">Likes: {comment.likes}</span>
+                  </div>
                 </li>
               ))}
           </ul>
         )}
       </div>
- {/* Debugging: Display isLoggedIn value */}
- <div>isLoggedIn: {isLoggedIn ? "true" : "false"}</div>
 
-{isLoggedIn && (
-  <div>
-    {/* Debugging: Display "Add Comment" section */}
-    <div style={{ border: "1px solid red" }}>
-      <h2>Leave a Comment</h2>
-      {/* Input field for new comment */}
-      <textarea
-        rows={4}
-        cols={50}
-        placeholder="Type your comment..."
-        value={newComment}
-        onChange={(e) => setNewComment(e.target.value)}
-      />
-      {/* Button to add a new comment */}
-      <button onClick={handleAddComment}>Add Comment</button>
+      {isLoggedIn && (
+        <div className="add-comment-section">
+          <h2 className="leave-comment-header">Leave a Comment</h2>
+          <textarea
+            className="comment-textarea"
+            rows={4}
+            cols={50}
+            placeholder="Type your comment..."
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+          />
+          <button className="add-comment-button" onClick={handleAddComment}>
+            Add Comment
+          </button>
+        </div>
+      )}
     </div>
-  </div>
-)}
-</div>
-);
+  );
 };
-
 
 export default CommentForm;
