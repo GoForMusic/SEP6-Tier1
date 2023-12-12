@@ -9,6 +9,7 @@ import Details from "./components/details/Details";
 import { Route, Routes } from "react-router";
 import Footer from "./components/footer/footer";
 import ResponsiveAppBar from "./components/navbar";
+import Profile from "./components/profile/profile";
 
 const App = ({ router: RouterComponent }) => {
   return (
@@ -21,6 +22,7 @@ const App = ({ router: RouterComponent }) => {
           <Route path="/account/login" element={<LoginScreen />} />
           <Route path="/movie/:movieId" element={<Details />} />
           <Route path="/" element={<HomeScreen />} />
+          <Route path="/account/edit" element={<Profile />} />
         </Routes>
       </RouterComponent>
       <Footer />
