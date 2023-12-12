@@ -7,13 +7,14 @@ import LoginScreen from "./screens/loginUserScreen";
 import HomeScreen from "../src/components/home/Home";
 import Details from "./components/details/Details";
 import { Route, Routes } from "react-router";
-import { BrowserRouter } from "react-router-dom";
 import Footer from "./components/footer/footer";
+import ResponsiveAppBar from "./components/navbar";
 
 const App = ({ router: RouterComponent }) => {
   return (
     <>
       <RouterComponent>
+        <ResponsiveAppBar />
         <Routes>
           <Route path="/helloworld" element={<HelloWorldScreen />} />
           <Route path="/account" element={<RegisterUserScreen />} />
