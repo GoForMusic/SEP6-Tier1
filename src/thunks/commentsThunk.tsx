@@ -14,19 +14,19 @@ export const addComment = (movieId: string, comment: string, userId: string) => 
       dispatch({type: POST_COMMENT_REQUEST})
 
         const requestBody = {
-                
+           //     id: "",
             movie_id: movieId,
             comment: comment,
+           // dateCreated: new Date().getHours,
             account_id: userId,
           };
 
-          console.log("movieId" , movieId );
-          console.log("userID", userId);
-          console.log("comment", comment);
+         console.log("Request Body", requestBody);
+         
           
 
-        const filteredData = await fetch(`https://tier2.azurewebsites.net/Comment`, {
-            mode: 'cors',
+        const filteredData = await fetch('https://tier2.azurewebsites.net/Comment', {
+            
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(requestBody),
@@ -37,6 +37,9 @@ export const addComment = (movieId: string, comment: string, userId: string) => 
           // console.log("movieId" , movieId );
           // console.log("userID", userId);
           // console.log("comment", comment);
+
+          //console.log("filteredData", filteredData);
+          
           
           
           

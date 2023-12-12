@@ -13,19 +13,21 @@ const CommentForm = ({ movieId }) => {
   const isLoggedIn = useSelector(
     (state: RootState) => state.loginUserReducer.isLoggedIn
   );
-  const userId = useSelector((state: RootState) => state.loginUserReducer.userId);
+  const userId = useSelector(
+    (state: RootState) => state.loginUserReducer.userId
+  );
   const existingComments = useSelector(
     (state: RootState) => state.commentReducer.comments
   );
-  useEffect(() => {
 
-  
+  useEffect(() => {
     dispatch(fetchComments(movieId));
   }, [dispatch, movieId]);
 
   const handleAddComment = () => {
+    console.log("userId", userId); 
     if (isLoggedIn && newComment.trim() !== "") {
-      dispatch(addComment(newComment, movieId, userId));
+      dispatch(addComment(movieId, newComment, userId));
       setNewComment("");
     }
   };
