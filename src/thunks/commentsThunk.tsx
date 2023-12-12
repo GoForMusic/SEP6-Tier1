@@ -8,21 +8,24 @@ import {
 } from '../constants/comments'
 
 
-export const addComment = (movieId: string, comment: string, userId: string) => async (dispatch: Dispatch) => {
+export const addComment = ( comment: string, movieId: string ,userId: string) => async (dispatch: Dispatch) => {
 
     try {
       dispatch({type: POST_COMMENT_REQUEST})
 
         const requestBody = {
                 
-            movie_id: movieId,
-            comment: comment,
+            body: comment,
             account_id: userId,
+            movie_id: movieId,
           };
 
           console.log("movieId" , movieId );
           console.log("userID", userId);
           console.log("comment", comment);
+
+          console.log("RequestedBody:", requestBody);
+          
           
 
         const filteredData = await fetch(`https://tier2.azurewebsites.net/Comment`, {
@@ -34,12 +37,7 @@ export const addComment = (movieId: string, comment: string, userId: string) => 
 
         if (!filteredData.ok) {
 
-          // console.log("movieId" , movieId );
-          // console.log("userID", userId);
-          // console.log("comment", comment);
-          
-          
-          
+
            
             console.error('Error adding comment:', filteredData.statusText);
           } else {
