@@ -29,22 +29,17 @@ export const login =
         }
       );
 
-      const contentType = response.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        // Handle non-JSON responses
-        throw new Error("Response is not in JSON format");
-      }
-
-      // const data = await response.json();
-      // const userData = { userId: data.userId, username: data.username };
+      const data = await response.json();
+      const userData = { userId: data.id, username: data.userName };
 
       if (response.ok) {
         // username because from backend we dont get any token.
-        localStorage.setItem("username", username);
+        localStorage.setItem("username", userData.username);
+        localStorage.setItem("userId", userData.userId);
         localStorage.setItem("logged", JSON.stringify(true));
         dispatch({
           type: USER_LOGIN_SUCCESS,
-          payload: username,
+          payload: userData,
         });
       } else {
         // Handle non-successful responses
@@ -63,9 +58,12 @@ export const login =
 
 export const logout = (username: string) => async (dispatch: Dispatch) => {
   try {
-    localStorage.removeItem("username");
-    localStorage.removeItem("logged");
-    dispatch({ type: USER_LOGOUT });
+    if (username === localStorage.getItem("username")) {
+      localStorage.clear(); // clear all
+      dispatch({ type: USER_LOGOUT });
+    } else {
+      throw new Error(`User is not logged in!`);
+    }
   } catch (error: any) {
     dispatch({
       type: USER_LOGOUT_FAIL,

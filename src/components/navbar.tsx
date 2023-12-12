@@ -63,8 +63,8 @@ function ResponsiveAppBar() {
   const isLoggedIn = useSelector(
     (state: RootState) => state.loginUserReducer.isLoggedIn
   );
-  const userId: any = useSelector(
-    (state: RootState) => state.loginUserReducer.userId
+  const username = useSelector(
+    (state: RootState) => state.loginUserReducer.username
   );
 
   const dispatch: AppDispatch = useDispatch();
@@ -101,7 +101,7 @@ function ResponsiveAppBar() {
       navigate("/watchlist");
     }
     if (setting === "Logout") {
-      dispatch(logout(userId));
+      dispatch(logout(username));
     }
   }
 
@@ -185,8 +185,8 @@ function ResponsiveAppBar() {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  {userId ? (
-                    <Avatar {...stringAvatar(userId)} />
+                  {username ? (
+                    <Avatar {...stringAvatar(username)} />
                   ) : (
                     <Avatar src="/broken-image.jpg" />
                   )}
