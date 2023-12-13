@@ -27,14 +27,17 @@ import {
   ImgStyled,
 } from "../../components/home/Styling/home_style";
 import Loader from "../loader";
-// import search from "../search/searchContainer";
 import Pagination from "../pagination/pagination";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
+import { addToWatchlist } from "../../Service/WatchList";
 
 const Home = () => {
   const theme = useTheme();
 
   const currentYear = new Date().getFullYear(); // Get current year
+  const userId = useSelector(
+    (state: RootState) => state.loginUserReducer.userId
+  );
 
   const movies = useSelector((state: RootState) => state.movieReducer.movies);
   const page = useSelector((state: RootState) => state.movieReducer.page);
@@ -118,8 +121,7 @@ const Home = () => {
   };
 
   const handleBookmarkClick = (movieId) => {
-    // Logic to bookmark the movie
-    console.log(`Bookmark movie with ID: ${movieId}`);
+    addToWatchlist(userId, movieId);
   };
 
   const handleBarClick = (e) => {
@@ -131,7 +133,6 @@ const Home = () => {
     (currentYear - index).toString()
   );
   const ratingOptions = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-  console.log("s", search);
   return (
     <>
       {!search || search.trim() === "" ? (
@@ -203,7 +204,7 @@ const Home = () => {
                 }
                 actionIcon={
                   <Button
-                    startIcon={<BookmarkBorderIcon />}
+                    startIcon={<BookmarkAddIcon sx={{ color: "green" }} />}
                     onClick={() => handleBookmarkClick(movie.id)}
                   ></Button>
                 }
@@ -218,6 +219,7 @@ const Home = () => {
           page={page}
           onPrevClick={handlePrevClick}
           onNextClick={handleNextClick}
+          isNextDisabled={false}
         />
       )}
     </>
