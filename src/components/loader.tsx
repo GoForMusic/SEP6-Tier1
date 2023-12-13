@@ -8,10 +8,14 @@ const LoaderWrapper = styled("div")(({ theme }) => ({
   marginTop: theme.spacing(10),
 }));
 
+const TealCircularProgress = styled(CircularProgress)(({ theme }) => ({
+  color: "teal", // Sets the color to teal
+}));
+
 const Loader = () => {
   return (
     <LoaderWrapper>
-      <CircularProgress />
+      <TealCircularProgress />
     </LoaderWrapper>
   );
 };

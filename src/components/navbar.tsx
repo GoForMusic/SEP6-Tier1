@@ -16,9 +16,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../thunks/loginUserThunk";
 import { RootState, AppDispatch } from "../store";
-import LoginIcon from "@mui/icons-material/Login";
-import HowToRegIcon from "@mui/icons-material/HowToReg";
+import { BiSolidLogInCircle } from "react-icons/bi";
+import { RiMovie2Line } from "react-icons/ri";
+import { BiCameraMovie } from "react-icons/bi";
+
 import TheatersIcon from "@mui/icons-material/Theaters";
+import { TiUserAdd } from "react-icons/ti";
+import { IoMdLogIn } from "react-icons/io";
 
 const settings = ["Account", "Watchlist", "Logout"];
 
@@ -95,12 +99,15 @@ function ResponsiveAppBar() {
 
   function handleMenuClick(setting: string): void {
     if (setting === "Account") {
+      handleCloseUserMenu();
       navigate("/account/edit");
     }
     if (setting === "Watchlist") {
+      handleCloseUserMenu();
       navigate("/watchlist");
     }
     if (setting === "Logout") {
+      handleCloseUserMenu();
       dispatch(logout(username));
     }
   }
@@ -130,7 +137,7 @@ function ResponsiveAppBar() {
               display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: ".3rem",
+              letterSpacing: ".1rem",
               color: "inherit",
               textDecoration: "none",
             }}
@@ -166,18 +173,42 @@ function ResponsiveAppBar() {
             sx={{ flexGrow: 2.5, display: { xs: "none", md: "flex" } }}
           ></Box>
 
-          <Box sx={{ flexGrow: 2.5 }}>
+          <Box sx={{ flexGrow: 2.85 }}>
             <TextField
               value={searchTerm}
               onChange={handleInputChange}
               onKeyPress={handleKeyPress}
               placeholder="Search"
-              variant="outlined"
               size="small"
-              style={{
-                backgroundColor: "white",
-                marginRight: "10px",
+              sx={{
+                backgroundColor: "#26A69A",
                 borderRadius: "1rem",
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "transparent",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "transparent",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "transparent",
+                  },
+                },
+                "& .MuiOutlinedInput-input": {
+                  color: "white", // Text color
+                },
+                "& .MuiOutlinedInput-root.Mui-focused": {
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    border: "none",
+                  },
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottom: "none",
+                },
+                "& .MuiInputBase-input::placeholder": {
+                  color: "white", // Placeholder text color
+                  opacity: 1, // Placeholder opacity (1 for full color)
+                },
               }}
             />
           </Box>
@@ -221,7 +252,18 @@ function ResponsiveAppBar() {
           ) : (
             <>
               <IconButton onClick={() => navigate("/account/login")}>
-                <LoginIcon style={{ color: "white" }} />
+                <BiSolidLogInCircle
+                  style={{
+                    color: "white",
+                    backgroundColor: "#0d7377",
+                    borderRadius: "50%",
+                    padding: "0.3rem",
+                    boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.5)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                />
               </IconButton>
 
               <Box
@@ -229,7 +271,18 @@ function ResponsiveAppBar() {
               ></Box>
 
               <IconButton onClick={() => navigate("/account")}>
-                <HowToRegIcon style={{ color: "white" }} />
+                <TiUserAdd
+                  style={{
+                    color: "white",
+                    backgroundColor: "#0d7377",
+                    borderRadius: "50%",
+                    padding: "0.3rem",
+                    boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.5)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                />
               </IconButton>
             </>
           )}
