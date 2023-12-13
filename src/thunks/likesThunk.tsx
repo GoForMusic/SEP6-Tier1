@@ -4,6 +4,7 @@ import { FETCH_LIKES_REQUEST,
          POST_LIKES_SUCCESS,
          POST_LIKES_REQUEST,
         } from '../constants/likes'
+import { log } from "console";
 
     
 
@@ -20,10 +21,56 @@ import { FETCH_LIKES_REQUEST,
             }
 
 
-           // const likeRequest = await fetch ()
+         const likeRequest = await fetch (`https://tier2.azurewebsites.net/Comment/likes`, {
+            mode: 'cors',
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestBody),
+         });
 
-        } catch {
+         if(!likeRequest.ok) {
+            console.log("Error liking the comment", likeRequest.statusText);
+            
+         } else {
+            dispatch({type: POST_LIKES_SUCCESS});
+            console.log("Like added successfully");
+            
+         }
+
+        } catch (error) {
+
+            console.error("Error", error);
 
         }
+    }
+
+    export const fetchLikes = (commentId: string, movieId: string) => async (dispatch: Dispatch) => {
+
+        try {
+            dispatch({type: FETCH_LIKES_REQUEST})
+
+            const response = await fetch (`https://tier2.azurewebsites.net/Comment/likes/${commentId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json", 
+                }
+            })
+            if (!response.ok) {
+                console.error("Error fetching likes", response.statusText);
+                return ; 
+            } 
+
+            const likes = await response.json();
+            dispatch({type: FETCH_LIKES_SUCCESS, payload: likes});
+            console.log("likes:  ", likes )
+
+            return likes;
+        } catch (error) {
+            console.error("Error: ", error );
+            return; 
+            
+        };
+        
+
     }
  

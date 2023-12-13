@@ -13,7 +13,7 @@ body {
   align-items: center;
   padding: 20px;
   margin: 2rem auto;
-  background-color: #fff;
+  background-color: #195e57;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   max-width: 600px;
@@ -23,19 +23,19 @@ body {
 .movie-details-title {
   font-size: 24px;
   margin-bottom: 10px;
-  color: #333;
+  color: #140425fd;
 }
 
 .movie-details-genres {
   font-size: 18px;
   margin-bottom: 10px;
-  color: #555;
+  color: #130e41;
 }
 
 .movie-details-overview {
   font-size: 16px;
   margin-bottom: 10px;
-  color: #666;
+  color: #140425fd;
 }
 
 .movie-details-year,
@@ -43,11 +43,11 @@ body {
 .movie-details-vote {
   font-size: 18px;
   margin-bottom: 10px;
-  color: #444;
+  color: #140425fd;
 }
 
 .movie-details-vote {
-  color: #e44d26;
+  color: #140425fd;
   font-weight: bold;
 }
 
@@ -56,7 +56,4 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Add this if you want to apply styles to your CommentComponent */
-.comment-component {
-  /* Add your styles here */
-}
+
