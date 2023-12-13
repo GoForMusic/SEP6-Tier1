@@ -78,7 +78,7 @@ const LoginScreen = () => {
             {interpretErrorMessage(error)}
           </div>
         )}
-        <Form onSubmit={submitHandler}>
+        <Form onSubmit={submitHandler} className="profile-form">
           <Form.Group controlId="username" className="profile-form">
             <Form.Label>Username</Form.Label>
             <Form.Control

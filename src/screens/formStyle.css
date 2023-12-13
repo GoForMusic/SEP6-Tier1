@@ -4,6 +4,20 @@ body, input, button {
     font-family: 'Roboto', sans-serif;
 }
 
+/* Chrome, Safari */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px #3b4045 inset !important;
+    -webkit-text-fill-color: #d1d1d1 !important;
+}
+
+/* Firefox */
+input:-moz-ui-invalid {
+    box-shadow: 0 0 0 30px #3b4045 inset !important;
+}
+
 /* Style the outer container */
 .profile-container {
     max-width: 400px;
