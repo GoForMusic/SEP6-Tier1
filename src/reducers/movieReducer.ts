@@ -6,7 +6,8 @@ import {
     FETCH_MOVIES_REQ,
     PREV_PAGE, 
     NEXT_PAGE,
-    SEARCH_MOVIES_RESPONSE
+    SEARCH_MOVIES_RESPONSE,
+    RESET_PAGE
   
   } from "../constants/movies";
   
@@ -29,9 +30,9 @@ import {
       case SEARCH_MOVIES_RESPONSE:
          return {
         ...state,
-        movies: action.payload,
+        movies: action.payload.queryData,
         loading: false,
-        searchTerm: ""
+        searchTerm: action.payload.title
       };
       case PREV_PAGE:
       return {
@@ -65,6 +66,12 @@ import {
           movies: action.payload,
           loading: false,
           error: null,
+        };
+
+        case RESET_PAGE:
+        return {
+          ...state,
+          page: 1,
         };
   
         case REQ_FAILED:

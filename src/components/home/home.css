@@ -1,0 +1,84 @@
+.filter-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
+    width: 30%;
+    border-radius: 10rem;
+    margin-bottom: 3rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .filter-input {
+    margin: 0.5rem;
+    background-color: #e1e1e1;
+    color: rgb(0, 0, 0);
+    width: 10rem;
+    border-radius: 10rem;
+    overflow: hidden;
+  }
+  
+  .filter-input .MuiInputLabel-root, 
+  .filter-input .MuiSelect-select, 
+  .filter-input .MuiSelect-icon {
+    color: rgb(0, 0, 0);
+  }
+  
+  .MuiInput-underline:before,
+  .MuiInput-underline:after,
+  .MuiInput-underline:hover:not(.Mui-disabled):before,
+  .MuiInput-underline:hover:not(.Mui-disabled):after {
+    border-bottom: none !important;
+  }
+  
+  .MuiMenuItem-root {
+    padding: 4px 16px;
+    font-size: 0.875rem;
+  }
+  
+  .MuiInputLabel-root {
+    color: #000000;
+    font-size: 0.875rem;
+  }
+  
+  .MuiPaper-root {
+    overflow-y: auto;
+    background-color: #000000;
+  }
+  
+  .MuiMenu-list::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .MuiMenu-list {
+    scrollbar-width: none;
+    max-height: 100px;
+    overflow-x: hidden;
+    font-weight: 500;
+    color: #000000;
+    background-color: #e1e1e1;
+  }
+  
+  .MuiInputLabel-shrink {
+    transform: 'translate(0, 1.5px) scale(0.85)';
+  }
+  
+  .MuiSelect-icon {
+    background-color: transparent;
+    color: #000000 !important;
+  }
+  
+  /* Ensure the placeholder text color is set correctly */
+  .MuiOutlinedInput-root .MuiOutlinedInput-input::placeholder {
+    color: #000000;
+    opacity: 1;
+  }
+  
+  /* Additional rules for the select component for consistent styling */
+  .MuiInputBase-root.MuiOutlinedInput-root .MuiSelect-select {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 0.875rem;
+  }

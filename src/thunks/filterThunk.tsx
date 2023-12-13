@@ -11,51 +11,52 @@ import {
 import { fetchFromAzure, fetchFromTMDB_api } from "../HelperFunctions/fetchApi";
 
 //##########################################################################################
-//                                       GENRE
+//                         GENRE - RIP, WAS A GOOD INTENTION ANYWAYS
 //##########################################################################################
 
-export const filterByGenre = (genre: string) => async (dispatch: Dispatch) => {
-  try {
-    const filteredData = await fetchFromAzure(`/filterByGenre`, "POST"); // Assuming POST request doesn't need body here
-    dispatch({ type: FILTER_BY_GENRE, payload: filteredData });
-  } catch (error) {
-    dispatch({
-      type: REQ_FAILED,
-      payload: `Error occurred: ${error.message}`,
-    });
-  }
-};
+// export const filterByGenre = (genre: string) => async (dispatch: Dispatch) => {
+//   try {
+//     const filteredData = await fetchFromAzure(`/filterByGenre`, "POST"); // Assuming POST request doesn't need body here
+//     dispatch({ type: FILTER_BY_GENRE, payload: filteredData });
+//   } catch (error) {
+//     dispatch({
+//       type: REQ_FAILED,
+//       payload: `Error occurred: ${error.message}`,
+//     });
+//   }
+// };
 
 //##########################################################################################
 //                                       RATE
 //##########################################################################################
 
-export const filterByRate = (rate: string) => async (dispatch: Dispatch) => {
-  try {
-    const filteredData = await fetchFromAzure(`/movies/rating/${rate}`);
-    dispatch({ type: FILTER_BY_RATE, payload: filteredData });
-  } catch (error) {
-    dispatch({
-      type: REQ_FAILED,
-      payload: `Error occurred: ${error.message}`,
-    });
-  }
-};
+export const filterByRate =
+  (rate: string, pageNr: number) => async (dispatch: Dispatch) => {
+    try {
+      dispatch({ type: FETCH_MOVIES_REQ });
+      const endpoint = `/movies/rating/${rate}?pageNumber=${pageNr}`;
+      const filteredData = await fetchFromAzure(endpoint);
+      await Promise.all(filteredData.map(fetchMovieDetails));
+      dispatch({ type: FILTER_BY_RATE, payload: filteredData });
+    } catch (error) {
+      dispatchError(dispatch, error);
+    }
+  };
 
 //##########################################################################################
 //                                       DIRECTOR
 //##########################################################################################
 
 export const filterByDirector = //// SEARH BY DIRECTOR NOT FILTER
-  (name: string) => async (dispatch: Dispatch) => {
+  (name: string, pageNr: number) => async (dispatch: Dispatch) => {
     try {
-      const filteredData = await fetchFromAzure(`/directors/search/${name}`);
+      dispatch({ type: FETCH_MOVIES_REQ });
+      const endpoint = `/directors/search/${name}?pageNumber=${pageNr}`;
+      const filteredData = await fetchFromAzure(endpoint);
+      await Promise.all(filteredData.map(fetchMovieDetails));
       dispatch({ type: FILTER_BY_DIRECTOR, payload: filteredData });
     } catch (error) {
-      dispatch({
-        type: REQ_FAILED,
-        payload: `Error occurred: ${error.message}`,
-      });
+      dispatchError(dispatch, error);
     }
   };
 
@@ -88,7 +89,7 @@ export const searchByTitle = (title: string) => async (dispatch: Dispatch) => {
     // Promise.all - handle multiple asynchronous calls efficiently
     await Promise.all(queryData.map(fetchMovieDetails));
 
-    dispatch({ type: SEARCH_MOVIES_RESPONSE, payload: queryData });
+    dispatch({ type: SEARCH_MOVIES_RESPONSE, payload: { queryData, title } });
   } catch (error) {
     dispatchError(dispatch, error);
   }
