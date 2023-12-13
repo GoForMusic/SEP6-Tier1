@@ -4,7 +4,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { IconButton } from "@mui/material";
 
-const Pagination = ({ page, onPrevClick, onNextClick }) => {
+const Pagination = ({ page, onPrevClick, onNextClick, isNextDisabled }) => {
   return (
     <div
       className="pagination-container"
@@ -32,7 +32,7 @@ const Pagination = ({ page, onPrevClick, onNextClick }) => {
         ></ArrowBackIosNewIcon>
       </IconButton>
       <p className="pageNr">Page: {page}</p>
-      <IconButton onClick={onNextClick}>
+      <IconButton onClick={onNextClick} disabled={isNextDisabled}>
         <ArrowForwardIosIcon
           sx={{
             color: "white",
