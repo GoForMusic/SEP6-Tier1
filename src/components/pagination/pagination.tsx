@@ -9,8 +9,8 @@ const Pagination = ({ page, onPrevClick, onNextClick }) => {
     <div
       className="pagination-container"
       style={{
-        marginTop: "2rem",
-        marginBottom: "2rem",
+        marginTop: "2.5rem",
+        marginBottom: "3.5rem",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -26,9 +26,7 @@ const Pagination = ({ page, onPrevClick, onNextClick }) => {
             width: "2rem",
             transition: " 0.35s ease",
             "&:hover": {
-              backgroundColor: "#0d7377",
-              boxShadow: "0 0 10px 10px #0d7377", // Soft, spread shadow for hover effect
-              color: "white",
+              color: "#4db6ac",
             },
           }}
         ></ArrowBackIosNewIcon>
@@ -43,9 +41,7 @@ const Pagination = ({ page, onPrevClick, onNextClick }) => {
             width: "2rem",
             transition: " 0.35s ease",
             "&:hover": {
-              backgroundColor: "#0d7377",
-              boxShadow: "0 0 10px 10px #0d7377", // Soft, spread shadow for hover effect
-              color: "white",
+              color: "#4db6ac",
             },
           }}
         ></ArrowForwardIosIcon>

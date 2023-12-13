@@ -6,6 +6,7 @@ import { RootState } from "../store";
 import { AppDispatch } from "../store";
 import { setError, registerAccount } from "../thunks/registerAccountThunk";
 import FormContainer from "../components/formContainer";
+import "./formStyle.css";
 
 const RegisterScreen = () => {
   const [username, setUsername] = useState("");
@@ -62,55 +63,52 @@ const RegisterScreen = () => {
   };
 
   return (
-    <FormContainer>
-      <h1>Sign Up</h1>
-
+    <div className="profile-container">
+      {" "}
+      <h2 className="profile-title">Sign Up</h2>{" "}
       {error && (
         <div style={{ color: "red" }}> {interpretErrorMessage(error)} </div>
       )}
-      <br></br>
-
-      <Form onSubmit={submitHandler}>
-        <Form.Group controlId="username" className="my-3">
+      <Form onSubmit={submitHandler} className="profile-form">
+        <Form.Group controlId="username" className="profile-form">
           <Form.Label>Username</Form.Label>
           <Form.Control
-            type="string"
+            type="text"
             placeholder="Username"
             value={username}
             onChange={handleUsernameChange}
+            className="profile-input"
           />
         </Form.Group>
-
-        <Form.Group controlId="password" className="my-3">
+        <Form.Group controlId="password" className="profile-form">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.currentTarget.value)}
+            className="profile-input"
           />
         </Form.Group>
 
-        <Form.Group controlId="confirmPassword" className="my-3">
+        <Form.Group controlId="confirmPassword" className="profile-form">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
             placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.currentTarget.value)}
+            className="profile-input"
           />
         </Form.Group>
 
-        <Button
-          onSubmit={submitHandler}
-          variant="primary"
-          type="submit"
-          className="my-3"
-        >
-          sign up!
+        {/* ... other Form.Groups for password and confirm password with the same classes */}
+
+        <Button variant="primary" type="submit" className="profile-button my-3">
+          Sign Up
         </Button>
       </Form>
-    </FormContainer>
+    </div>
   );
 };
 

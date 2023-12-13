@@ -9,6 +9,7 @@ import { AppDispatch } from "../store";
 import { setError, registerAccount } from "../thunks/registerAccountThunk";
 import { registerWithGoogle } from "../thunks/googleRegisterThunk";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import "./formStyle.css";
 
 const clientId =
   "110067314755-tpum3uuch9l0ksvp8oulomfm5d35jq1n.apps.googleusercontent.com";
@@ -46,6 +47,12 @@ const LoginScreen = () => {
     dispatch(login(username, password));
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      dispatch(login(username, password));
+    }
+  };
+
   const onGoogleSuccessfull = (response) => {
     // Ensure that the response object and profileObj are defined
     if (response && response.profileObj && response.profileObj.email) {
@@ -64,46 +71,70 @@ const LoginScreen = () => {
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
-      <FormContainer>
-        <h1>Login</h1>
-
+      <div className="profile-container">
+        <h2 className="profile-title">Login</h2>
         {error && (
-          <div style={{ color: "red" }}> {interpretErrorMessage(error)} </div>
+          <div style={{ color: "red", marginBottom: "1rem" }}>
+            {interpretErrorMessage(error)}
+          </div>
         )}
-
         <Form onSubmit={submitHandler}>
-          <Form.Group controlId="username" className="my-3">
+          <Form.Group controlId="username" className="profile-form">
             <Form.Label>Username</Form.Label>
             <Form.Control
               type="string"
-              placeholder="Username"
+              placeholder="Enter username"
               value={username}
               onChange={(e) => setUsername(e.currentTarget.value)}
+              className="profile-input"
             />
           </Form.Group>
-          <Form.Group controlId="password" className="my-3">
+
+          <Form.Group controlId="password" className="profile-form">
             <Form.Label>Password</Form.Label>
             <Form.Control
+              onKeyPress={handleKeyPress}
               type="password"
-              placeholder="Password"
+              placeholder="Enter password"
               value={password}
               onChange={(e) => setPassword(e.currentTarget.value)}
+              className="profile-input"
             />
           </Form.Group>
-          <Button variant="primary" type="submit" className="my-3">
-            Login
-          </Button>
-          <GoogleLogin
-            onSuccess={onGoogleSuccessfull}
-            onError={() => {
-              console.log("Login Failed");
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "1rem 0 2rem",
             }}
-            useOneTap
-          />
-          ;
-          {/* <Button onClick={() => login()}>Sign in with Google 🚀</Button>; */}
+          >
+            <Button
+              type="submit"
+              className="profile-button"
+              style={{ alignSelf: "center" }}
+            >
+              Login
+            </Button>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "20px 0",
+            }}
+          >
+            <GoogleLogin
+              onSuccess={onGoogleSuccessfull}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+              useOneTap
+            />
+          </div>
         </Form>
-      </FormContainer>
+      </div>
     </GoogleOAuthProvider>
   );
 };

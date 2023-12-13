@@ -13,20 +13,22 @@ import Profile from "./components/profile/profile";
 
 const App = ({ router: RouterComponent }) => {
   return (
-    <>
+    <div className="main-container">
       <RouterComponent>
         <ResponsiveAppBar />
-        <Routes>
-          <Route path="/helloworld" element={<HelloWorldScreen />} />
-          <Route path="/account" element={<RegisterUserScreen />} />
-          <Route path="/account/login" element={<LoginScreen />} />
-          <Route path="/movie/:movieId" element={<Details />} />
-          <Route path="/" element={<HomeScreen />} />
-          <Route path="/account/edit" element={<Profile />} />
-        </Routes>
+        <div className="content">
+          <Routes>
+            <Route path="/helloworld" element={<HelloWorldScreen />} />
+            <Route path="/account" element={<RegisterUserScreen />} />
+            <Route path="/account/login" element={<LoginScreen />} />
+            <Route path="/movie/:movieId" element={<Details />} />
+            <Route path="/" element={<HomeScreen />} />
+            <Route path="/account/edit" element={<Profile />} />
+          </Routes>
+        </div>
       </RouterComponent>
       <Footer />
-    </>
+    </div>
   );
 };
 
