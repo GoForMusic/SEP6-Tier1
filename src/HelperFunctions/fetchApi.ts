@@ -5,6 +5,7 @@
 
 import { MovieData } from "../Interfaces/MovieData";
 import fetchJsonp from "./fetchJsonp";
+import { MovieDataDb } from "../Interfaces/MovieDataDb";
 
 ///api url wrapped within constant - bcs it is the same for all req and used in many places.
 
