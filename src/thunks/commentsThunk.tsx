@@ -4,6 +4,8 @@ import {
   FETCH_COMMENTS_SUCCESS,
   POST_COMMENT_SUCCESS,
   POST_COMMENT_REQUEST,
+  DELETE_COMMENT_REQUEST,
+  DELETE_COMMENT_SUCCESS
   
 } from '../constants/comments'
 
@@ -51,6 +53,26 @@ export const addComment = ( comment: string, movieId: string ,userId: string) =>
 
     } 
 
+}
+
+export const deleteComments = (commentId: string) => async (dispatch: Dispatch) => {
+  try {
+    dispatch({type: DELETE_COMMENT_REQUEST})
+    const response = await fetch(`https://tier2.azurewebsites.net/Comment${commentId}`, {
+      method: 'DELETE',
+      headers: { "Content-Type": "application/json" },
+    });
+    if(!response.ok) {
+      console.log("error deleting comment: ", response.statusText);
+      
+    } else {
+      dispatch({type: DELETE_COMMENT_SUCCESS})
+      console.log("comment deleted successfully");
+      
+    }
+  } catch (error){
+    console.error("Error", error)
+  }
 }
 
 export const fetchComments = (movieId: string) =>  async (dispatch: Dispatch) => {
