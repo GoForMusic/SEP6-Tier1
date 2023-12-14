@@ -5,13 +5,17 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./store";
 import { BrowserRouter } from "react-router-dom";
+import ResponsiveAppBar from "./components/navbar";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <Provider store={store}>
-    <App router={BrowserRouter} />
+    <BrowserRouter>
+      <ResponsiveAppBar />
+      <App />
+    </BrowserRouter>
   </Provider>
 );
 

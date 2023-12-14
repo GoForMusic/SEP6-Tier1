@@ -7,15 +7,12 @@ import HomeScreen from "../src/components/home/Home";
 import Details from "./components/details/Details";
 import { Route, Routes } from "react-router";
 import Footer from "./components/footer/footer";
-import ResponsiveAppBar from "./components/navbar";
 import Profile from "./components/profile/profile";
 import WatchList from "./components/WatchList/WatchList";
 
-const App = ({ router: RouterComponent }) => {
+const App = () => {
   return (
     <div className="main-container">
-      <RouterComponent>
-        <ResponsiveAppBar />
         <div className="content">
           <Routes>
             <Route path="/helloworld" element={<HelloWorldScreen />} />
@@ -27,7 +24,6 @@ const App = ({ router: RouterComponent }) => {
             <Route path="/account/edit" element={<Profile />} />
           </Routes>
         </div>
-      </RouterComponent>
       <Footer />
     </div>
   );
