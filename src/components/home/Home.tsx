@@ -6,7 +6,7 @@ import {
   filterByDirector,
   filterByRate,
   filterByYear,
-} from "../../thunks/filterThunk";
+} from "../../thunks/moviesThunk";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Button,

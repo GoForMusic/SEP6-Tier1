@@ -1,5 +1,5 @@
 // Import the action creator and any other necessary parts of your app
-import { searchByTitle } from '../../../thunks/filterThunk';
+import { searchByTitle } from '../../../thunks/moviesThunk';
 import * as movieService from '../../../HelperFunctions/fetchApi';
 import configureMockStore from 'redux-mock-store';
     import thunk from 'redux-thunk';
