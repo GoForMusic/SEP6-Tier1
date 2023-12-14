@@ -23,7 +23,7 @@ import { Dispatch } from "redux";
 
             if (!updatedData.ok) {
 
-                console.error('Error changing the password', updatedData.statusText);
+                throw new Error("Failed to change password");
             } else { 
                 console.log("Password successfully changed");
             } 
