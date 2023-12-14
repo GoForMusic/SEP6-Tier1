@@ -8,27 +8,11 @@ import {
   GET_WATCHLIST,
   SEARCH_MOVIES_RESPONSE,
 } from "../constants/movies";
-import { fetchFromAzure, fetchFromTMDB_api } from "../HelperFunctions/fetchApi";
+import { fetchFromAzure, fetchMovieDetails } from "../HelperFunctions/fetchApi";
 import {
   getFromWatchlist,
   fetchMovieDetails_ForWatchlist,
 } from "../Service/WatchList";
-
-//##########################################################################################
-//                         GENRE - RIP, WAS A GOOD INTENTION ANYWAYS
-//##########################################################################################
-
-// export const filterByGenre = (genre: string) => async (dispatch: Dispatch) => {
-//   try {
-//     const filteredData = await fetchFromAzure(`/filterByGenre`, "POST"); // Assuming POST request doesn't need body here
-//     dispatch({ type: FILTER_BY_GENRE, payload: filteredData });
-//   } catch (error) {
-//     dispatch({
-//       type: REQ_FAILED,
-//       payload: `Error occurred: ${error.message}`,
-//     });
-//   }
-// };
 
 //##########################################################################################
 //                                       RATE
@@ -40,8 +24,13 @@ export const filterByRate =
       dispatch({ type: FETCH_MOVIES_REQ });
       const endpoint = `/movies/rating/${rate}?pageNumber=${pageNr}`;
       const filteredData = await fetchFromAzure(endpoint);
-      await Promise.all(filteredData.map(fetchMovieDetails));
-      dispatch({ type: FILTER_BY_RATE, payload: filteredData });
+
+      // Update each movie with details
+      const updatedMovies = await Promise.all(
+        filteredData.map(async (movie) => await fetchMovieDetails(movie))
+      );
+
+      dispatch({ type: FILTER_BY_RATE, payload: updatedMovies });
     } catch (error) {
       dispatchError(dispatch, error);
     }
@@ -51,14 +40,19 @@ export const filterByRate =
 //                                       DIRECTOR
 //##########################################################################################
 
-export const filterByDirector = //// SEARH BY DIRECTOR NOT FILTER
+export const filterByDirector =
   (name: string, pageNr: number) => async (dispatch: Dispatch) => {
     try {
       dispatch({ type: FETCH_MOVIES_REQ });
       const endpoint = `/directors/search/${name}?pageNumber=${pageNr}`;
       const filteredData = await fetchFromAzure(endpoint);
-      await Promise.all(filteredData.map(fetchMovieDetails));
-      dispatch({ type: FILTER_BY_DIRECTOR, payload: filteredData });
+
+      // Update each movie with details
+      const updatedMovies = await Promise.all(
+        filteredData.map(async (movie) => await fetchMovieDetails(movie))
+      );
+
+      dispatch({ type: FILTER_BY_DIRECTOR, payload: updatedMovies });
     } catch (error) {
       dispatchError(dispatch, error);
     }
@@ -74,8 +68,13 @@ export const filterByYear =
       dispatch({ type: FETCH_MOVIES_REQ });
       const endpoint = `/movies/year/${year}?pageNumber=${pageNr}`;
       const filteredData = await fetchFromAzure(endpoint);
-      await Promise.all(filteredData.map(fetchMovieDetails));
-      dispatch({ type: FILTER_BY_YEAR, payload: filteredData });
+
+      // Map over filteredData, update each movie with details
+      const updatedMovies = await Promise.all(
+        filteredData.map(async (movie) => await fetchMovieDetails(movie))
+      );
+
+      dispatch({ type: FILTER_BY_YEAR, payload: updatedMovies });
     } catch (error) {
       dispatchError(dispatch, error);
     }
@@ -90,33 +89,23 @@ export const searchByTitle = (title: string) => async (dispatch: Dispatch) => {
     dispatch({ type: FETCH_MOVIES_REQ });
     const queryData = await fetchFromAzure(`/movies/search/${title}`);
 
-    // Promise.all - handle multiple asynchronous calls efficiently
-    await Promise.all(queryData.map(fetchMovieDetails));
+    // Fetch and update each movie with additional details
+    const enrichedQueryData = await Promise.all(
+      queryData.map(async (movie) => await fetchMovieDetails(movie))
+    );
 
-    dispatch({ type: SEARCH_MOVIES_RESPONSE, payload: { queryData, title } });
+    // Dispatch the response with the enriched movie data
+    dispatch({
+      type: SEARCH_MOVIES_RESPONSE,
+      payload: { queryData: enrichedQueryData, title },
+    });
   } catch (error) {
     dispatchError(dispatch, error);
   }
 };
-
 //##########################################################################################
 //          Some abstract functions // I want to keep them here for now - Marty
 //##########################################################################################
-
-const fetchMovieDetails = async (movie) => {
-  let goodString = movie.id.toString().padStart(7, "0");
-  try {
-    const movieData = await fetchFromTMDB_api(`tt${goodString}`);
-    movie.poster = movieData.poster_path
-      ? `https://image.tmdb.org/t/p/original/${movieData.poster_path}`
-      : "https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg";
-    movie.genres = movieData.genres.map((genre) => genre.name);
-  } catch (error) {
-    console.error(`Error fetching details for movie ID ${movie.id}:`, error);
-    movie.poster =
-      "https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg";
-  }
-};
 
 // Abstrct error dispatch func
 const dispatchError = (dispatch, error) => {
