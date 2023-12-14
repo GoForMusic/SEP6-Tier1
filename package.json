@@ -40,7 +40,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --coverage --watchAll",
+    "test": "react-scripts test --coverage --watchAll=false",
     "test-once": "CI=true react-scripts test --watch=all",
     "test-once-win": "set CI=true && react-scripts test --watch=all",
     "eject": "react-scripts eject"
