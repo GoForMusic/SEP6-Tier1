@@ -32,6 +32,7 @@ export const registerAccount = (username: String, password: string) =>
            // const message = data.message;
 
             } catch (error: any) {
+              
 
               dispatch({
                 type: USER_REGISTER_FAIL,
@@ -39,7 +40,9 @@ export const registerAccount = (username: String, password: string) =>
                   error.response && error.response.data.message
                     ? error.response.data.message
                     : error.message,
-              });
+              })
+              
+              
 
         }
 
