@@ -8,6 +8,7 @@ import {
   authReducer,
   movieReducer,
   commentReducer,
+  movieIdReducer
 } from "./reducers";
 
 const rootReducer = combineReducers({
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   loginUserReducer,
   movieReducer,
   commentReducer,
+  movieIdReducer
 });
 
 const store = configureStore({

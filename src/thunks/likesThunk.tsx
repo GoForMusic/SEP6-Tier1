@@ -8,7 +8,7 @@ import { log } from "console";
 
     
 
-    export const addLike = (commentId: string, userId: string ) => async (dispatch: Dispatch) => {
+    export const addLike = (commentId: string ) => async (dispatch: Dispatch) => {
         
 
         try{
@@ -17,11 +17,11 @@ import { log } from "console";
             const requestBody = {
                 
                 commentId: commentId,
-                userId: userId,
+                
             }
 
 
-         const likeRequest = await fetch (`https://tier2.azurewebsites.net/Comment/likes`, {
+         const likeRequest = await fetch (`https://tier2.azurewebsites.net/Comment/${commentId}/likes`, {
             mode: 'cors',
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -49,7 +49,7 @@ import { log } from "console";
         try {
             dispatch({type: FETCH_LIKES_REQUEST})
 
-            const response = await fetch (`https://tier2.azurewebsites.net/Comment/likes/${commentId}`, {
+            const response = await fetch (`https://tier2.azurewebsites.net/Comment/${commentId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json", 

@@ -13,6 +13,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons"
 
 const CommentForm = ({ movieId }) => {
   const [newComment, setNewComment] = useState<string>("");
+ 
   const dispatch: AppDispatch = useDispatch();
   const isLoggedIn = useSelector(
     (state: RootState) => state.loginUserReducer.isLoggedIn
@@ -37,11 +38,10 @@ const CommentForm = ({ movieId }) => {
   };
 
   const handleLikeComment = async (commentId) => {
-    await dispatch(addLike( commentId, movieId));
+    await dispatch(addLike( commentId));
     dispatch(fetchLikes(commentId, movieId));
-
-
   } 
+
 
 
 
@@ -74,13 +74,17 @@ const CommentForm = ({ movieId }) => {
   <i className="fas fa-heart"></i> 
 </button>
                     
-                    <span className="like-count">Likes: {comment.likes}</span>
+                    <span className="like-count">Likes: {comment.numberOfLikes}</span>
                   </div>
                 </li>
               ))}
           </ul>
         )}
+
+
       </div>
+
+      
 
       {isLoggedIn && (
         <div className="add-comment-section">

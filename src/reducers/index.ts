@@ -4,3 +4,4 @@ export { default as registerUserReducer } from "./registerUserReducer";
 export { default as movieReducer } from "./movieReducer";
 export { default as authReducer } from "./authReducer";
 export { default as commentReducer } from "./commentReducer";
+export { default as movieIdReducer } from "./movieIdReducer";
