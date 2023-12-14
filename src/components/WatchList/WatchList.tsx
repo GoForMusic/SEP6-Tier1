@@ -16,7 +16,7 @@ import Loader from "../loader";
 import Pagination from "../pagination/pagination";
 import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
 import { removeFromWatchlist } from "../../Service/WatchList";
-import { fetchWatchlist } from "../../thunks/filterThunk";
+import { fetchWatchlist } from "../../thunks/moviesThunk";
 
 const WatchList = () => {
   const theme = useTheme();
@@ -65,7 +65,7 @@ const WatchList = () => {
 
   return (
     <>
-      {isLoading && <Loader />} 
+      {isLoading && <Loader />}
       <ImageList
         key={refreshTrigger}
         cols={calculateNumberOfCols(theme)}

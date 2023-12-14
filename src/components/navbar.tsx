@@ -10,7 +10,7 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { TextField } from "@mui/material";
-import { searchByTitle } from "../thunks/filterThunk";
+import { searchByTitle } from "../thunks/moviesThunk";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
