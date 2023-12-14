@@ -7,11 +7,12 @@ import {
     PREV_PAGE, 
     NEXT_PAGE,
     SEARCH_MOVIES_RESPONSE,
-    RESET_PAGE
+    RESET_PAGE, GET_WATCHLIST
   
   } from "../constants/movies";
   
   const initialState = {
+    watchList: [],
     movies: [],
     loading: false, // for spinner, when fetching movies
     page: 1, // for pagination to track what is the current page.
@@ -80,6 +81,9 @@ import {
           loading: false,
           error: action.payload,
         };
+
+        case GET_WATCHLIST:
+        return { ...state, watchList: action.payload, error: null };
   
       default:
         return state;
