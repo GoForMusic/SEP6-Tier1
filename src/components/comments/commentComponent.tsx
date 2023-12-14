@@ -3,7 +3,7 @@ import { useState } from "react";
 import { RootState } from "../../store";
 import { AppDispatch } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
-import { addComment, fetchComments } from "../../thunks/commentsThunk";
+import { addComment, fetchComments,  deleteComments } from "../../thunks/commentsThunk";
 import { addLike, fetchLikes } from "../../thunks/likesThunk";
 import './comments.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -41,6 +41,10 @@ const CommentForm = ({ movieId }) => {
     await dispatch(addLike( commentId));
     dispatch(fetchLikes(commentId, movieId));
   } 
+
+  const handleDeleteComment = async (commentId) => {
+    await dispatch(deleteComments(commentId))
+  }
 
 
 
@@ -99,6 +103,9 @@ const CommentForm = ({ movieId }) => {
           />
           <button className="add-comment-button" onClick={handleAddComment}>
             Add Comment
+          </button>
+          <button className="add-comment-button" onClick={handleDeleteComment}>
+            Delete Comment
           </button>
         </div>
       )}

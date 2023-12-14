@@ -3,6 +3,8 @@ import {
   FETCH_COMMENTS_REQUEST,
   POST_COMMENT_SUCCESS,
   POST_COMMENT_REQUEST,
+  DELETE_COMMENT_REQUEST,
+  DELETE_COMMENT_SUCCESS,
 } from "../constants/comments";
 
 const initialState = {
@@ -31,6 +33,18 @@ const commentReducer = (state = initialState, action: any) => {
         loading: false,
       };
     case POST_COMMENT_SUCCESS:
+      return {
+        ...state,
+        comments: [],
+        loading: false,
+      };
+    case DELETE_COMMENT_REQUEST:
+      return {
+        ...state,
+        commens: action.payload,
+        loading: false,
+      };
+    case DELETE_COMMENT_SUCCESS:
       return {
         ...state,
         comments: [],
