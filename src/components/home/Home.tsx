@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
-import { nextPage, prevPage } from "../../Actions/pagination";
+import { nextPage, prevPage, resetPage } from "../../Actions/pagination";
 import {
   calculateNumberOfCols,
   calculateImageListWidth,
@@ -55,6 +55,7 @@ const Home = () => {
   );
 
   const [watchlistMovieIds, setWatchlistMovieIds] = useState(new Set());
+  const [previousFilter, setPreviousFilter] = useState(null);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -70,9 +71,33 @@ const Home = () => {
   const [getRating, setRating] = useState("");
   const [getDirector, setDirector] = useState("");
   const [activeFilter, setActiveFilter] = useState("year"); // Set the default active filter to 'year'
+  const [previousYear, setPreviousYear] = useState(null);
+  const [previousRating, setPreviousRating] = useState(null);
+  const [previousDirector, setPreviousDirector] = useState(null);
 
   // Effect for handling filter changes
   useEffect(() => {
+    // Check if the filter type has changed
+    if (activeFilter && activeFilter !== previousFilter) {
+      dispatch(resetPage());
+      setPreviousFilter(activeFilter);
+    }
+
+    // Check if the filter value has changed within the same filter type
+    if (activeFilter === "year" && getYear !== previousYear) {
+      dispatch(resetPage());
+      setPreviousYear(getYear);
+    } else if (activeFilter === "rating" && getRating !== previousRating) {
+      dispatch(resetPage());
+      setPreviousRating(getRating);
+    } else if (
+      activeFilter === "director" &&
+      getDirector !== previousDirector
+    ) {
+      dispatch(resetPage());
+      setPreviousDirector(getDirector);
+    }
+
     if (activeFilter) {
       switch (activeFilter) {
         case "year":
@@ -88,7 +113,18 @@ const Home = () => {
           break;
       }
     }
-  }, [dispatch, getYear, getRating, getDirector, page, activeFilter]);
+  }, [
+    dispatch,
+    getYear,
+    getRating,
+    getDirector,
+    page,
+    activeFilter,
+    previousFilter,
+    previousYear,
+    previousRating,
+    previousDirector,
+  ]);
 
   const handleYearChange = (event) => {
     setRating("");
