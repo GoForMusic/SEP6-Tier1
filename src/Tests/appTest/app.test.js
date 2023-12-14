@@ -1,56 +1,71 @@
-import React from 'react';
-import '@testing-library/jest-dom' // MUST IMPORT THIS IN ALL TESTS
-import {render, screen} from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import App from '../../App'
+import React from "react";
+import "@testing-library/jest-dom"; // MUST IMPORT THIS IN ALL TESTS
+import { render, screen } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
+import App from "../../App";
 
-jest.mock('../../screens/HelloWorldScreen', () => () => <div>HelloWorldScreen Mock</div>);
-jest.mock('../../screens/registerUserScreen', () => () => <div>RegisterUserScreen Mock</div>);
-jest.mock('../../screens/loginUserScreen', () => () => <div>LoginScreen Mock</div>);
-jest.mock('../../components/home/Home', () => () => <div>HomeScreen Mock</div>);
-jest.mock('../../components/details/Details', () => () => <div>Details Mock</div>);
+jest.mock("../../screens/HelloWorldScreen", () => () => (
+  <div>HelloWorldScreen Mock</div>
+));
+jest.mock("../../screens/registerUserScreen", () => () => (
+  <div>RegisterUserScreen Mock</div>
+));
+jest.mock("../../screens/loginUserScreen", () => () => (
+  <div>LoginScreen Mock</div>
+));
+jest.mock("../../components/home/Home", () => () => <div>HomeScreen Mock</div>);
+jest.mock("../../components/details/Details", () => () => (
+  <div>Details Mock</div>
+));
+jest.mock("../../components/WatchList/WatchList", () => () => (
+  <div>WatchList Mock </div>
+));
+jest.mock("../../components/profile/profile", () => () => (
+  <div>Profile Mock </div>
+));
 
-test('renders app', () => {
-    render(<App router={BrowserRouter} />);
+test("renders app", () => {
+  render(<App router={BrowserRouter} />);
 });
 
-
-test('renders HelloWorldScreen for /helloworld route', () => {
-
-  window.history.pushState({}, 'Hello world page', '/helloworld');
+test("renders HelloWorldScreen for /helloworld route", () => {
+  window.history.pushState({}, "Hello world page", "/helloworld");
   render(<App router={BrowserRouter} />);
-  expect(screen.getByText('HelloWorldScreen Mock')).toBeInTheDocument();
-
-  });
-
-test('renders RegisterUserScreen for /account route', () => {
-
-  window.history.pushState({}, 'Test page', '/account');
-  render(<App router={BrowserRouter} />);
-  expect(screen.getByText('RegisterUserScreen Mock')).toBeInTheDocument();
-  
+  expect(screen.getByText("HelloWorldScreen Mock")).toBeInTheDocument();
 });
 
-test('renders LoginScreen for /account/login route', () => {
-
-  window.history.pushState({}, 'Login page', '/account/login');
+test("renders RegisterUserScreen for /account route", () => {
+  window.history.pushState({}, "Test page", "/account");
   render(<App router={BrowserRouter} />);
-  expect(screen.getByText('LoginScreen Mock')).toBeInTheDocument();
-
+  expect(screen.getByText("RegisterUserScreen Mock")).toBeInTheDocument();
 });
 
-test('renders Home screen for / route', () => {
-
-  window.history.pushState({}, 'Home page', '/');
+test("renders LoginScreen for /account/login route", () => {
+  window.history.pushState({}, "Login page", "/account/login");
   render(<App router={BrowserRouter} />);
-  expect(screen.getByText('HomeScreen Mock')).toBeInTheDocument();
-
+  expect(screen.getByText("LoginScreen Mock")).toBeInTheDocument();
 });
-  
-test('renders Details screen for /movie/:movieId (details) route', () => {
 
-  window.history.pushState({}, 'Movie details page', '/movie/:movieId');
+test("renders Home screen for / route", () => {
+  window.history.pushState({}, "Home page", "/");
   render(<App router={BrowserRouter} />);
-  expect(screen.getByText('Details Mock')).toBeInTheDocument();
+  expect(screen.getByText("HomeScreen Mock")).toBeInTheDocument();
+});
 
+test("renders Details screen for /movie/:movieId (details) route", () => {
+  window.history.pushState({}, "Movie details page", "/movie/:movieId");
+  render(<App router={BrowserRouter} />);
+  expect(screen.getByText("Details Mock")).toBeInTheDocument();
+});
+
+test("renders WatchList screen for /Watchlist/:account_id route", () => {
+  window.history.pushState({}, "WatchList page", "/WatchList/:account_id");
+  render(<App router={BrowserRouter} />);
+  expect(screen.getByText("WatchList ")).toBeInTheDocument();
+});
+
+test("renders Profile screen for /account/edit  route", () => {
+  window.history.pushState({}, "Profile page", "/account/edit");
+  render(<App router={BrowserRouter} />);
+  expect(screen.getByText("Profile Mock")).toBeInTheDocument();
 });

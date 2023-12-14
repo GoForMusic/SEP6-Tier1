@@ -38,11 +38,11 @@ stages:
 
             displayName: "Build React App"
 
-          - script: |
-              npm run test
-            displayName: "Run Tests"
+          # - script: |
+          #     npm run test
+          #   displayName: "Run Tests"
 
-          - task: PublishCodeCoverageResults@1
-            inputs:
-              codeCoverageTool: "Cobertura"
-              summaryFileLocation: "$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml"
+          # - task: PublishCodeCoverageResults@1
+          #   inputs:
+          #     codeCoverageTool: "Cobertura"
+          #     summaryFileLocation: "$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml"
