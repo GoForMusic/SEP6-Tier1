@@ -17,3 +17,5 @@ export const NEXT_PAGE = "NEXT_PAGE";
 export const RESET_PAGE = "RESET_PAGE";
 
 export const SEARCH_MOVIES_RESPONSE = "SEARCH_MOVIES_RESPONSE";
+
+export const GET_WATCHLIST = "GET_WATCHLIST";

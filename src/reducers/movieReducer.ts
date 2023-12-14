@@ -4,14 +4,15 @@ import {
   FILTER_BY_RATE,
   REQ_FAILED,
   FETCH_MOVIES_REQ,
-  FETCH_MOVIES_SUCCESS,
   PREV_PAGE,
   NEXT_PAGE,
   SEARCH_MOVIES_RESPONSE,
   RESET_PAGE,
+  GET_WATCHLIST,
 } from "../constants/movies";
 
 const initialState = {
+  watchList: [],
   movies: [],
   loading: false, // for spinner, when fetching movies
   page: 1, // for pagination to track what is the current page.
@@ -80,13 +81,8 @@ const movieReducer = (state = initialState, action: any) => {
         error: action.payload,
       };
 
-    case FETCH_MOVIES_SUCCESS:
-      return {
-        ...state,
-        movies: action.payload,
-        loading: false,
-        error: null,
-      };
+    case GET_WATCHLIST:
+      return { ...state, watchList: action.payload, error: null };
 
     default:
       return state;

@@ -2,13 +2,17 @@ import { Dispatch } from "redux";
 import {
   FETCH_MOVIES_REQ,
   FILTER_BY_DIRECTOR,
-  FILTER_BY_GENRE,
   FILTER_BY_RATE,
   FILTER_BY_YEAR,
   REQ_FAILED,
+  GET_WATCHLIST,
   SEARCH_MOVIES_RESPONSE,
 } from "../constants/movies";
 import { fetchFromAzure, fetchFromTMDB_api } from "../HelperFunctions/fetchApi";
+import {
+  getFromWatchlist,
+  fetchMovieDetails_ForWatchlist,
+} from "../Service/WatchList";
 
 //##########################################################################################
 //                         GENRE - RIP, WAS A GOOD INTENTION ANYWAYS
@@ -120,4 +124,27 @@ const dispatchError = (dispatch, error) => {
     type: REQ_FAILED,
     payload: `Error occurred: ${error.message}`,
   });
+};
+
+//##########################################################################################
+//                                  WatchList
+//##########################################################################################
+
+export const fetchWatchlist = (userId) => async (dispatch) => {
+  try {
+    const watchlistData = await getFromWatchlist(userId);
+    const moviesWithDetails = await Promise.all(
+      watchlistData.map(async (entry) => {
+        const details = await fetchMovieDetails_ForWatchlist(entry.movie_id.id);
+        return {
+          ...entry.movie_id,
+          watchlistId: entry.id,
+          ...details,
+        };
+      })
+    );
+    dispatch({ type: GET_WATCHLIST, payload: moviesWithDetails });
+  } catch (error) {
+    dispatchError(dispatch, error);
+  }
 };
