@@ -25,9 +25,19 @@ export const filterByRate =
       const endpoint = `/movies/rating/${rate}?pageNumber=${pageNr}`;
       const filteredData = await fetchFromAzure(endpoint);
 
-      // Update each movie with details
+      // Map over filteredData to create new structure
       const updatedMovies = await Promise.all(
-        filteredData.map(async (movie) => await fetchMovieDetails(movie))
+        filteredData.map(async (movie) => {
+          // DOING DESTRUCTURING HERE BECAUSE APPARENTLY TIER2 DECIDED TO SEND
+          //  US OBJECTS WITH DIFFERENT STRUCTURES ON EVERY FILTER/SEARCH REQUEST
+          //SO this is workaround
+          const details = await fetchMovieDetails(movie.movie_id);
+          return {
+            ...details,
+            ratingValue: movie.ratingValue,
+            votes: movie.votes,
+          };
+        })
       );
 
       dispatch({ type: FILTER_BY_RATE, payload: updatedMovies });
@@ -35,7 +45,6 @@ export const filterByRate =
       dispatchError(dispatch, error);
     }
   };
-
 //##########################################################################################
 //                                       DIRECTOR
 //##########################################################################################
@@ -49,7 +58,17 @@ export const filterByDirector =
 
       // Update each movie with details
       const updatedMovies = await Promise.all(
-        filteredData.map(async (movie) => await fetchMovieDetails(movie))
+        filteredData.map(async (movie) => {
+          // DOING DESTRUCTURING HERE BECAUSE APPARENTLY TIER2 DECIDED TO SEND
+          //  US OBJECTS WITH DIFFERENT STRUCTURES ON EVERY FILTER/SEARCH REQUEST
+          //SO this is workaround
+          const details = await fetchMovieDetails(movie.movie_id);
+          return {
+            ...details,
+            ratingValue: movie.ratingValue,
+            votes: movie.votes,
+          };
+        })
       );
 
       dispatch({ type: FILTER_BY_DIRECTOR, payload: updatedMovies });
