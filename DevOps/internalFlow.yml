@@ -39,7 +39,7 @@ stages:
             displayName: "Build React App"
 
           - script: |
-              npm run test --coverage
+              npm run test
             displayName: "Run Tests"
 
           - task: PublishCodeCoverageResults@1
