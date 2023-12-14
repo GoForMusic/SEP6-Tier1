@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./WatchList.css";
-import type { RootState } from "../../store";
+import type { AppDispatch, RootState } from "../../store";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, ImageList, ImageListItemBar } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
@@ -15,11 +15,12 @@ import {
 import Loader from "../loader";
 import Pagination from "../pagination/pagination";
 import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
-import { getFromWatchlist, removeFromWatchlist } from "../../Service/WatchList";
-import { fetchFromTMDB_api } from "../../HelperFunctions/fetchApi";
+import { removeFromWatchlist } from "../../Service/WatchList";
+import { fetchWatchlist } from "../../thunks/filterThunk";
 
 const WatchList = () => {
   const theme = useTheme();
+  const dispatch: AppDispatch = useDispatch();
 
   const [page, setPage] = useState(1);
 
@@ -54,37 +55,17 @@ const WatchList = () => {
     (state: RootState) => state.movieReducer.loading
   );
 
-  // Local state for movies
-  const [movies, setMovies] = useState([]);
+  const movies = useSelector(
+    (state: RootState) => state.movieReducer.watchList
+  );
 
   useEffect(() => {
-    const fetchWatchlist = async () => {
-      try {
-        const watchlistData = await getFromWatchlist(userId, page);
-        const moviesWithDetails = await Promise.all(
-          watchlistData.map(async (entry) => {
-            const details = await fetchMovieDetails(entry.movie_id.id);
-            return {
-              ...entry.movie_id,
-              watchlistId: entry.id,
-              ...details,
-            };
-          })
-        );
-        setMovies(moviesWithDetails);
-      } catch (error) {
-        console.error("Failed to fetch watchlist:", error);
-      }
-    };
-
-    if (userId) {
-      fetchWatchlist();
-    }
-  }, [userId, page, refreshTrigger]);
+    dispatch(fetchWatchlist(userId));
+  }, [userId, page, refreshTrigger, dispatch]);
 
   return (
     <>
-      {isLoading && <Loader />} {/* Show loader when isLoading is true */}
+      {isLoading && <Loader />} 
       <ImageList
         key={refreshTrigger}
         cols={calculateNumberOfCols(theme)}
@@ -137,22 +118,3 @@ const WatchList = () => {
 };
 
 export default WatchList;
-
-const fetchMovieDetails = async (movieId) => {
-  let goodString = movieId.toString().padStart(7, "0");
-  try {
-    const movieData = await fetchFromTMDB_api(`tt${goodString}`);
-    return {
-      poster: movieData.poster_path
-        ? `https://image.tmdb.org/t/p/original/${movieData.poster_path}`
-        : "https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg",
-      genres: movieData.genres.map((genre) => genre.name),
-    };
-  } catch (error) {
-    console.error(`Error fetching details for movie ID ${movieId}:`, error);
-    return {
-      poster: "https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg",
-      genres: [],
-    };
-  }
-};

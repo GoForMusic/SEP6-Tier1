@@ -1,5 +1,4 @@
 import React from "react";
-import { Container } from "react-bootstrap";
 import "./App.css";
 import HelloWorldScreen from "./screens/HelloWorldScreen";
 import RegisterUserScreen from "./screens/registerUserScreen";
