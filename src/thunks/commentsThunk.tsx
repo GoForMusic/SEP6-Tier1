@@ -41,7 +41,7 @@ export const addComment = ( comment: string, movieId: string ,userId: string) =>
 
 
            
-            console.error('Error adding comment:', filteredData.statusText);
+          throw new Error(`Error adding comments: ${filteredData.statusText}`);
           } else {
          
             dispatch({type: POST_COMMENT_SUCCESS})
@@ -88,6 +88,7 @@ export const fetchComments = (movieId: string) =>  async (dispatch: Dispatch) =>
       
 
       if (!response.ok) {
+        
         // Handle error if needed
         console.error('Error fetching comments:', response.statusText);
         return [];
