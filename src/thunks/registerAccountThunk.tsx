@@ -21,6 +21,10 @@ export const registerAccount = (username: String, password: string) =>
               
             });
 
+            if (!response.ok) {
+              throw new Error("Error message");
+            }
+
             const data = await response.json();
             console.log(response.json);
             
